@@ -29,6 +29,11 @@ asks every open question at once, as a page the user answers in any order and a 
 that records the answers. A decided feature gets sliced into a plan. An approved plan gets built one
 slice at a time. Passing a feature id changes which feature it picks, nothing else.
 
+`/serve` puts the review pages in front of the user, on one address that never changes. Tabs across
+the top reach every milestone, each offering its decision review and its drawing of the finished
+milestone. Running it a second time does nothing, so it is also the answer when the page has gone —
+the server closes itself after fifteen idle minutes. `/serve stop` closes it by hand.
+
 `/status` reports where the work stands and never continues into it: a line per milestone, the
 current milestone's features, the job currently open, and anything waiting on the user, named as an
 action they take.

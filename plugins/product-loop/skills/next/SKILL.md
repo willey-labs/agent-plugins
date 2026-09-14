@@ -16,11 +16,12 @@ Read `docs/roadmap.md`. Use the first rule below that matches. Don't weigh them 
 2. Take the first milestone that isn't `done`. Read its `_milestone.md`.
 3. A feature with decision `open` — run BRAINSTORM. It covers every undecided feature in the
    milestone at once.
-4. All features decided and one has build `none` — run PLAN on the first.
-5. A feature with build `approved` — run BUILD on its next unbuilt slice.
-6. A feature with build `planned` — show its slices and ask for approval. Stop.
-7. All features built — run CLOSE.
-8. No milestones left — say the roadmap is done. Stop.
+4. All features decided and the milestone folder holds no `final-look.html` — run FINAL LOOK.
+5. All features decided and one has build `none` — run PLAN on the first.
+6. A feature with build `approved` — run BUILD on its next unbuilt slice.
+7. A feature with build `planned` — show its slices and ask for approval. Stop.
+8. All features built — run CLOSE.
+9. No milestones left — say the roadmap is done. Stop.
 
 Say what you're doing first, in one line: milestone, feature, mode, position. `M2 accounts, F-06
 password reset, brainstorm, 6 of 9 decisions answered.` The user can veto in one word.
@@ -30,8 +31,8 @@ An argument only changes which feature you pick. `/next f-07` runs the same step
 ## Files you may open
 
 `docs/roadmap.md`. `docs/_current.md` if it exists. The current milestone's `_milestone.md`,
-`decisions.md` and `decisions.html`. The feature documents listed in the row's `needs` column. In
-BUILD, the source files the slice names.
+`decisions.md`, `decisions.html` and `final-look.html`. The feature documents listed in the row's
+`needs` column. In BUILD, the source files the slice names.
 
 Don't open another milestone's folder. Don't open a feature document you aren't working on. Don't
 open source code outside BUILD. Don't read all of `docs/`.
@@ -54,23 +55,23 @@ Write two files in the milestone folder. Both cover every undecided feature in t
 - `decisions.html` — the same questions as a web page. It draws the options instead of describing
   them, and it saves the user's picks.
 
-Then start the review server that sits next to this skill:
+Then run `/serve`, which puts the page at `http://localhost:4399` and writes every pick straight into
+`decisions.md`. Give the user that address. It's the main way they answer. Running `/serve` when the
+server is already up changes nothing, so never check first.
 
-```
-node <skill folder>/serve-decisions.mjs <milestone folder> 4399
-```
+When the last decision lands, the page says every question is answered and tells them to run
+`/next`, which draws the final look. Nothing is listening for that moment on this side — the session
+handed over the address and stopped — so the page is what tells them the review is done.
 
-It serves the page at `http://localhost:4399` and writes every pick straight into `decisions.md`.
-Give the user that address. It's the main way they answer.
-
-The server stops three ways: the button on the page, ctrl-c, or fifteen minutes with nobody on it.
-The open page pings while it's there, so the idle timer only runs down once the tab is closed.
+The server stops on the button, on ctrl-c, or after fifteen idle minutes, and `/serve` brings it
+back. Tell the user that once. It's the answer to every later "the page is gone".
 
 Also publish `decisions.html` and give them the link, for answering away from this machine. The
 published copy saves picks in its own store instead.
 
-Never tell the user to open `decisions.html` as a file. With no server and no published store behind
-it, their picks live in the browser tab and vanish on the next reload.
+Never tell the user to open `decisions.html` as a file, and never hand them the `node` command. A
+file opened directly has no server behind it, so their picks vanish on the next reload and every
+answer already given draws as unanswered. The address is the only thing they should be given.
 
 Write both files, start the server, hand over the address, stop. Answers come back in whatever order
 the user likes.
@@ -120,6 +121,31 @@ set that row's decision to `locked`, and delete `docs/_current.md` once nothing 
 document holds settled facts only — no questions, no rejected options, no trace of the review. Leave
 `decisions.md` where it is, with its answers in it.
 
+## FINAL LOOK
+
+Draw the milestone as the answers make it, on one page, in one file: `final-look.html` in the
+milestone folder. One page for the whole milestone, not one per feature — the decisions were taken
+together and the point is to see them together.
+
+Every answer that shows on a screen has to show here, as that answer and no other. A question
+answered B is drawn B, including where B lost the recommendation. Read the `Decision` lines again as
+you draw; don't work from what you remember recommending.
+
+Draw nothing the milestone excludes. `_milestone.md` names what this milestone leaves out, and a
+drawing that includes it makes the excluded thing look agreed.
+
+Seed it with enough made-up content to exercise the answers. A limit that shows at four items needs
+a row with four. A mark that appears past a threshold needs something over it and something under
+it. An answer that never draws in the seed is an answer the page can't be checked against.
+
+This is the check on the combination, and it runs before anything is cut into slices. Each decision
+was weighed alone. Two that each read well can sit badly on one screen, and this is the only place
+that shows up while changing it is still cheap.
+
+Write the file, run `/serve`, give the user the address, say which answers to look at hardest, and
+stop. Don't plan. If they want an answer changed, that's a decision reopening — say so and let them
+call it.
+
 ## PLAN
 
 Cut the locked feature into slices. If a slice can't be checked until another slice is done, it
@@ -157,11 +183,13 @@ All steps pass — set the milestone to `done`, set the next one to `current`, a
 ## Templates
 
 Read `references/templates.md` before writing `docs/roadmap.md`, a `_milestone.md`,
-`docs/_current.md`, a `decisions.md`, a `decisions.html`, a feature document, or a plan.
+`docs/_current.md`, a `decisions.md`, a `decisions.html`, a `final-look.html`, a feature document, or
+a plan.
 
 ## What ships alongside
 
-`serve-decisions.mjs` in this folder serves the review page and writes answers into `decisions.md`.
+`/serve` runs the review server, which serves every milestone's review page and final look on one
+port and writes answers into each milestone's `decisions.md`. Its code sits in that skill's folder.
 
 The plugin holding this skill also registers a hook that reads the session transcript after each
 turn and says once, past a threshold, how much context the session is carrying.
@@ -172,10 +200,13 @@ repeats.
 
 - You're about to invent a milestone, a feature, or an answer the user never gave.
 - You're about to ask questions one at a time in chat instead of writing the review.
-- You're about to send the user to `decisions.html` as a file instead of the server address.
+- You're about to send the user to `decisions.html` as a file, or to a `node` command, instead of
+  the address `/serve` gives.
 - You're about to offer an option without saying what it costs.
 - You're about to mark a row `locked`, `approved` or `built` yourself.
 - You're about to reopen a locked decision because the current feature would be tidier without it.
+- You're about to draw the final look from a recommendation instead of the answer that was picked.
+- You're about to draw something `_milestone.md` excludes into the final look.
 - You're about to read another milestone's folder for context.
 - You're about to put the review discussion into the feature document.
 - You're about to build a slice the user hasn't approved.

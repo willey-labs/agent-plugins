@@ -125,16 +125,30 @@ cost, or a delay, draw what it produces: the screen a month of that rule leaves 
 row it adds to a settings list, the gap between something changing and someone seeing it. An option
 with only words next to it is one the user can't weigh.
 
-The page works out where it's running and saves accordingly. Served by `serve-decisions.mjs`, it
-posts each pick to `/decision` and the server writes it into `decisions.md`; on load it reads
-`/decisions.json` so the answers already in the markdown are there when the page opens. Published, it
-saves to its own store instead. Opened as a bare file, it says plainly that picks aren't being saved
-rather than losing them quietly.
+The page works out where it's running and saves accordingly. Behind the review server it posts each
+pick to `decision` and reads `decisions.json` on load, both as paths relative to the page's own
+address, so the server knows which milestone they belong to without the page being told. Published,
+it saves to its own store instead. Opened as a bare file, it says plainly that picks aren't being
+saved rather than losing them quietly.
 
-In server mode the page also shows a button that stops the server, and pings every four minutes so
-the server's idle timer only runs down once the tab is gone.
+Use relative paths for both, never a leading slash. The page is served from inside its milestone's
+folder, and an absolute path would send every milestone's picks to the same place.
+
+The page pings every four minutes so the server's idle timer only runs down once the tab is gone. It
+carries no stop button of its own — the frame around it has one, and two would be a question about
+which is real.
 
 Don't ask for a name, an email, or anything else the page doesn't need.
+
+### When the last answer lands
+
+The count at the top reaches the total, and a panel opens saying the review is finished and telling
+the user to run `/next`, which draws the final look. Nothing on the agent's side is watching the
+page, so this panel is the only thing that tells the user the review is over.
+
+It opens on the answer that completes the set, and it's there on load when the page opens already
+complete. Taking an answer back closes it again. It doesn't cover the decisions or scroll away from
+them — someone who wants to re-read a pick before moving on can.
 
 ### A running demo inside a decision
 
@@ -156,6 +170,27 @@ Example: choosing between confirming a save the moment it's pressed, and confirm
 write finishes. Two panels, one slow write fired into both, a pointer pressing save and moving on.
 The first panel says the person walked away trusting a save that hadn't happened. The second says
 they waited two seconds and knew.
+
+## docs/m<n>-<name>/final-look.html
+
+The milestone working, as the answers make it, on one page. One file for the whole milestone.
+
+It shows the screens the milestone touches, at the size they'll really be, with every answered
+decision drawn as the answer that won. A row that holds two items and a count holds two and a count.
+A mark that appears past a threshold appears past it and nowhere else. A list that waits for a click
+before reordering waits.
+
+A line at the top names the decisions it was drawn from, with the letter each one carries. Anyone
+opening the page can hold it against the answers without reading the markdown.
+
+Seed content exercises the answers rather than filling space. Every limit has something that reaches
+it, every threshold has something on each side, every state a decision names has an example on the
+page. A decision that nothing on the page exercises is one the page can't be checked against.
+
+Anything the milestone excludes stays off it. Drawing an excluded thing makes it look settled.
+
+It works with no server and no store. Nothing is saved from it and nothing is asked of the reader —
+it's read, not answered.
 
 ## docs/m<n>-<name>/f-<nn>-<name>.md
 
