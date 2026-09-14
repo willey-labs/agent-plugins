@@ -1,5 +1,3 @@
-/** Finds the milestone folders under docs/ and reports what each one holds. */
-
 import { readFile, readdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';

@@ -1,5 +1,3 @@
-/** Compares the stamp a milestone's drawing carries against the answers now in decisions.md. */
-
 import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
