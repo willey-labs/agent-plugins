@@ -16,7 +16,8 @@ Read `docs/roadmap.md`. Use the first rule below that matches. Don't weigh them 
 2. Take the first milestone that isn't `done`. Read its `_milestone.md`.
 3. A feature with decision `open` — run BRAINSTORM. It covers every undecided feature in the
    milestone at once.
-4. All features decided and the milestone folder holds no `final-look.html` — run FINAL LOOK.
+4. All features decided, and either no `final-look.html` in the milestone folder or one whose stamp
+   disagrees with `decisions.md` — run FINAL LOOK.
 5. All features decided and one has build `none` — run PLAN on the first.
 6. A feature with build `approved` — run BUILD on its next unbuilt slice.
 7. A feature with build `planned` — show its slices and ask for approval. Stop.
@@ -126,6 +127,12 @@ document holds settled facts only — no questions, no rejected options, no trac
 Draw the milestone as the answers make it, on one page, in one file: `final-look.html` in the
 milestone folder. One page for the whole milestone, not one per feature — the decisions were taken
 together and the point is to see them together.
+
+The page carries a stamp listing every decision and the letter it holds. Compare that stamp to
+`decisions.md` before anything else. They agree — the drawing is current, so leave it alone and move
+on to the next rule. They disagree, or there is no stamp — redraw the whole page and write a fresh
+stamp. A stamp is the only way a reopened decision ever reaches the drawing, so never write one
+without redrawing, and never redraw without rewriting it.
 
 Every answer that shows on a screen has to show here, as that answer and no other. A question
 answered B is drawn B, including where B lost the recommendation. Read the `Decision` lines again as
