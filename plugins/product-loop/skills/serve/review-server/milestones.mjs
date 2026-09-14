@@ -4,7 +4,8 @@ import { readFile, readdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { progressOf } from './decisions-markdown.mjs';
+import { answersIn, progressOf } from './decisions-markdown.mjs';
+import { stateOfDrawing } from './final-look.mjs';
 
 const FOLDER_PATTERN = /^m\d+-/;
 
@@ -23,12 +24,14 @@ function titleOf(id) {
 async function describe({ docs, id }) {
   const folder = join(docs, id);
   const markdown = join(folder, 'decisions.md');
+  const text = existsSync(markdown) ? await readFile(markdown, 'utf8') : null;
   return {
     id,
     title: titleOf(id),
     decisions: existsSync(join(folder, 'decisions.html')),
     finalLook: existsSync(join(folder, 'final-look.html')),
-    progress: existsSync(markdown) ? progressOf(await readFile(markdown, 'utf8')) : null,
+    look: await stateOfDrawing({ folder, answers: text ? answersIn(text) : {} }),
+    progress: text ? progressOf(text) : null,
   };
 }
 

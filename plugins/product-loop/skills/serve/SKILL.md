@@ -58,6 +58,12 @@ Restarting is `/serve` again, which is why the idle exit is safe to leave alone.
 Every folder under `docs/` named `m<n>-<something>`. Each milestone offers its decision review and
 its final look, and a tab is greyed out when that milestone has no such page yet.
 
+The final look tab carries the state of the drawing behind it. The server reads the stamp the
+drawing was written with and compares it to the answers in `decisions.md`: they agree and the tab is
+plain, they disagree and it reads stale, there is no stamp and it says so. A stale or unstamped
+drawing also puts a line under the tabs naming the decisions that moved. Report that line when you
+see it; redrawing is `/next`, not this skill.
+
 Picks made on the decision review go straight into that milestone's `decisions.md`, the same file
 `/next` and `/status` read. There is no second copy of an answer anywhere.
 

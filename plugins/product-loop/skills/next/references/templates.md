@@ -180,10 +180,15 @@ decision drawn as the answer that won. A row that holds two items and a count ho
 A mark that appears past a threshold appears past it and nowhere else. A list that waits for a click
 before reordering waits.
 
-A stamp at the top names every decision it was drawn from and the letter each one holds, in id
-order, so a reader and a later session can both hold the drawing against the answers at a glance.
-This is what makes a stale drawing findable: a decision reopened later leaves a stamp that no longer
-matches, and the mismatch is the signal to redraw.
+A stamp names every decision it was drawn from and the letter each one holds, in id order. It is
+written twice from the same facts: once across the top of the page for a reader, and once as a
+`drawn-from` meta tag whose content lists each id and letter separated by commas, so the review
+server can compare it without reading the layout.
+
+The meta tag is what makes a stale drawing findable. A decision reopened later leaves a stamp that
+no longer matches, the server marks the milestone's drawing stale and names the decisions that
+moved, and the next session redraws. Change the two halves together or the page claims one thing and
+reports another.
 
 Seed content exercises the answers rather than filling space. Every limit has something that reaches
 it, every threshold has something on each side, every state a decision names has an example on the
