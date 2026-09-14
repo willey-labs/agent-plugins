@@ -1,0 +1,15 @@
+{
+  "name": "willey-labs",
+  "description": "Plugins for Claude Code, published by willey-labs.",
+  "owner": {
+    "name": "willey-labs"
+  },
+  "plugins": [
+    {
+      "name": "product-loop",
+      "description": "Drives product work one unit at a time, from decision review to built slice.",
+      "version": "1.0.0",
+      "source": "./plugins/product-loop"
+    }
+  ]
+}

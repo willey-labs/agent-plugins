@@ -1,0 +1,9 @@
+{
+  "name": "product-loop",
+  "version": "1.0.0",
+  "description": "Drives product work one unit at a time: a decision review the user answers, a locked feature document, a sliced plan, then the build.",
+  "author": {
+    "name": "willey-labs"
+  },
+  "keywords": ["planning", "decisions", "roadmap"]
+}
