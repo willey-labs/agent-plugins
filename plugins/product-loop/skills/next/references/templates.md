@@ -6,9 +6,10 @@ Milestone status: `open` · `current` · `done`
 Feature decision: `open` · `deciding` · `locked`
 Feature build: `none` · `planned` · `building` · `built`
 Feature kind: `page` · `contract` · `job` · `integration`
+Plan slice state: `none` · `built`
 
-Exactly one milestone is `current`. A feature reaches `planned` once its decision is `locked`, and
-`built` once every slice of its plan passes its own check.
+Exactly one milestone is `current`. A feature reaches `planned` once its decision is `locked`,
+`building` once a slice of its plan passes its own check, and `built` once every slice does.
 
 ## docs/roadmap.md
 
@@ -243,4 +244,4 @@ always been that way — no history, no rejected options, no reasons for the cho
 ```
 
 Each check has to pass or fail on its own, with no other slice finished. Slice one is the one most
-likely to prove the plan wrong.
+likely to prove the plan wrong. A slice reads `none` until its own check passes, and `built` after.

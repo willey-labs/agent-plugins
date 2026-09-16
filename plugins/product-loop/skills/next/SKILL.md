@@ -5,8 +5,8 @@ description: Use when the user types /next alone, asks what to work on, asks to 
 
 # next
 
-Do one piece of product work. Takes no arguments. Read the state from disk, say in one line what
-you're about to do, then do it.
+Do one piece of product work. Read the state from disk, say in one line what you're about to do,
+then do it.
 
 ## Pick the unit
 
@@ -19,14 +19,15 @@ Read `docs/roadmap.md`. Use the first rule below that matches. Don't weigh them 
 4. All features decided, and either no `final-look.html` in the milestone folder or one whose stamp
    disagrees with `decisions.md` — run FINAL LOOK.
 5. All features decided and one has build `none` — run PLAN on the first.
-6. A feature with build `planned` — run BUILD on its next unbuilt slice.
+6. A feature with build `planned` or `building` — run BUILD on its next unbuilt slice.
 7. All features built — run CLOSE.
 8. No milestones left — say the roadmap is done. Stop.
 
 Say what you're doing first, in one line: milestone, feature, mode, position. `M2 accounts, F-06
 password reset, brainstorm, 6 of 9 decisions answered.` The user can veto in one word.
 
-An argument only changes which feature you pick. `/next f-07` runs the same steps on that feature.
+A feature id is the only argument, and it only changes which feature you pick. `/next f-07` runs the
+same steps on that feature. Anything else passed is not an argument — say so and read the state.
 
 ## Files you may open
 
@@ -173,9 +174,9 @@ Not a decision the feature document already made.
 
 Follow the repo's coding standards.
 
-When the slice passes, mark it built in the plan and stop. When every slice passes, set the row's
-build to `built` in the same turn. The passing check is the authority for both marks — don't ask the
-user to confirm what the check already proved.
+When the slice passes, mark it built in the plan, set the row's build to `building`, and stop. When
+every slice passes, set the row to `built` in the same turn. The passing check is the authority for
+every one of those marks — don't ask the user to confirm what the check already proved.
 
 If a build session runs long, stop the way a brainstorm does: write `docs/_current.md` with the
 slice and what's left, then tell the user to start a new session.

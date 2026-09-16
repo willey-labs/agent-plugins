@@ -23,11 +23,11 @@ Drives product work one unit at a time, from an open decision to a built slice. 
 on disk — a roadmap, a milestone folder per phase, and a marker for the job currently open — so a
 new session picks up where the last one stopped without being told.
 
-`/next` does one piece of work and takes no arguments. It reads the state, says in one line which
-milestone, feature and mode it chose, then runs that mode. Undecided features go to a review that
-asks every open question at once, as a page the user answers in any order and a matching document
-that records the answers. A decided feature gets sliced into a plan. A planned feature gets built one
-slice at a time. Passing a feature id changes which feature it picks, nothing else.
+`/next` does one piece of work. It reads the state, says in one line which milestone, feature and
+mode it chose, then runs that mode. Undecided features go to a review that asks every open question
+at once, as a page the user answers in any order and a matching document that records the answers. A
+decided feature gets sliced into a plan. A planned feature gets built one slice at a time. Passing a
+feature id changes which feature it picks, nothing else.
 
 `/serve` puts the review pages in front of the user, on one address that never changes. Tabs across
 the top reach every milestone, each offering its decision review and its drawing of the finished
