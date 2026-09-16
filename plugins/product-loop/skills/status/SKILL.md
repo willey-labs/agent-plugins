@@ -25,9 +25,9 @@ The features of the milestone marked `current`, one line each: id, name, decisio
 
 The open job, when `docs/_current.md` exists: the feature, the mode, and its next step verbatim.
 
-Anything waiting on the user, last, and named as an action they take. Two are usual: decisions still
-holding a dash in `decisions.md`, counted and named by id, and a plan needing approval. Nothing
-waiting — say so in those words.
+Anything waiting on the user, last, and named as an action they take. One is usual: decisions still
+holding a dash in `decisions.md`, counted and named by id. Nothing waiting — say so in those words.
+A row that only needs the next `/next` is not waiting on the user.
 
 ## Hold the line
 

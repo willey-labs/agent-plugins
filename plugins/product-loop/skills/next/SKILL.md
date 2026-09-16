@@ -19,10 +19,9 @@ Read `docs/roadmap.md`. Use the first rule below that matches. Don't weigh them 
 4. All features decided, and either no `final-look.html` in the milestone folder or one whose stamp
    disagrees with `decisions.md` — run FINAL LOOK.
 5. All features decided and one has build `none` — run PLAN on the first.
-6. A feature with build `approved` — run BUILD on its next unbuilt slice.
-7. A feature with build `planned` — show its slices and ask for approval. Stop.
-8. All features built — run CLOSE.
-9. No milestones left — say the roadmap is done. Stop.
+6. A feature with build `planned` — run BUILD on its next unbuilt slice.
+7. All features built — run CLOSE.
+8. No milestones left — say the roadmap is done. Stop.
 
 Say what you're doing first, in one line: milestone, feature, mode, position. `M2 accounts, F-06
 password reset, brainstorm, 6 of 9 decisions answered.` The user can veto in one word.
@@ -41,7 +40,8 @@ open source code outside BUILD. Don't read all of `docs/`.
 ## One job at a time
 
 `docs/_current.md` is the open job. While it exists, don't start a different feature — not for a
-named argument, not because the open one looks stuck. Say what's open and ask.
+named argument, not because the open one looks stuck. Carry on with the open job, and say in the
+opening line that you set the argument aside and which job took its place.
 
 ## BRAINSTORM
 
@@ -161,8 +161,8 @@ isn't a slice — merge it or cut differently.
 Each slice says what it does and how you'll check it. Write the check now, not after the code. Put
 the slice most likely to prove the plan wrong first.
 
-Write the plan file, set the row's build to `planned`, then stop and hand it over. Don't write code.
-Only set it to `approved` when the user says go.
+Write the plan file, set the row's build to `planned`, then stop. The plan is this invocation's whole
+unit — don't write code in the same turn. The next `/next` picks the first slice up and builds it.
 
 ## BUILD
 
@@ -174,7 +174,8 @@ Not a decision the feature document already made.
 Follow the repo's coding standards.
 
 When the slice passes, mark it built in the plan and stop. When every slice passes, set the row's
-build to `built`.
+build to `built` in the same turn. The passing check is the authority for both marks — don't ask the
+user to confirm what the check already proved.
 
 If a build session runs long, stop the way a brainstorm does: write `docs/_current.md` with the
 slice and what's left, then tell the user to start a new session.
@@ -210,12 +211,13 @@ repeats.
 - You're about to send the user to `decisions.html` as a file, or to a `node` command, instead of
   the address `/serve` gives.
 - You're about to offer an option without saying what it costs.
-- You're about to mark a row `locked`, `approved` or `built` yourself.
+- You're about to mark a row `locked` or `built` without the evidence that earns it: every decision
+  of the feature answered, or every slice of the plan passing its own check.
 - You're about to reopen a locked decision because the current feature would be tidier without it.
 - You're about to draw the final look from a recommendation instead of the answer that was picked.
 - You're about to draw something `_milestone.md` excludes into the final look.
 - You're about to read another milestone's folder for context.
 - You're about to put the review discussion into the feature document.
-- You're about to build a slice the user hasn't approved.
+- You're about to build something the plan doesn't list as a slice.
 
 Each one means: stop, say what you were about to do, and ask.

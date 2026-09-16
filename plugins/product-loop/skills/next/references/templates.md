@@ -4,11 +4,11 @@ Each list below is the full set of values for that column. Nothing else is valid
 
 Milestone status: `open` · `current` · `done`
 Feature decision: `open` · `deciding` · `locked`
-Feature build: `none` · `planned` · `approved` · `building` · `built`
+Feature build: `none` · `planned` · `building` · `built`
 Feature kind: `page` · `contract` · `job` · `integration`
 
-Exactly one milestone is `current`. A feature can only reach `planned` once its decision is
-`locked`, and `approved` once the user says go.
+Exactly one milestone is `current`. A feature reaches `planned` once its decision is `locked`, and
+`built` once every slice of its plan passes its own check.
 
 ## docs/roadmap.md
 
