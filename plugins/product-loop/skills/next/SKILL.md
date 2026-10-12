@@ -18,10 +18,14 @@ Read `docs/roadmap.md`. Use the first rule below that matches. Don't weigh them 
    milestone at once.
 4. All features decided, and either no `final-look.html` in the milestone folder or one whose stamp
    disagrees with `decisions.md` — run FINAL LOOK.
-5. All features decided and one has build `none` — run PLAN on the first.
-6. A feature with build `planned` or `building` — run BUILD on its next unbuilt slice.
+5. A feature with build `planned` or `building` — run BUILD on its next unbuilt slice.
+6. All features decided and one has build `none` — run PLAN on the first.
 7. All features built — run CLOSE.
 8. No milestones left — say the roadmap is done. Stop.
+
+A feature's decision is `open`, `deciding` or `locked`, and its build is `none`, `planned`,
+`building` or `built`. Write no other value. A row already holding one matches no rule, and the pick
+slides past it to a later feature — name the row and the value, ask which value it holds, and stop.
 
 Say what you're doing first, in one line: milestone, feature, mode, position. `M2 accounts, F-06
 password reset, brainstorm, 6 of 9 decisions answered.` The user can veto in one word.
