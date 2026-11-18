@@ -35,6 +35,7 @@ function styles() {
 function script() {
   return `
   var frame = document.getElementById('frame');
+  var mapNav = document.getElementById('map-nav');
   var msNav = document.getElementById('ms');
   var viewNav = document.getElementById('views');
   var strip = document.getElementById('strip');
@@ -46,18 +47,27 @@ function script() {
 
   function fromHash() {
     var parts = decodeURIComponent(location.hash.slice(1)).split('/');
+    if (parts[0] === 'map' && MAP.exists) return { id: null, view: 'map' };
+    if (parts[0] === 'presentation' && PRESENTATION) return { id: null, view: 'presentation' };
     var found = milestone(parts[0]);
     if (!found) return null;
     return { id: found.id, view: parts[1] === 'final-look' ? 'final-look' : 'decisions' };
   }
 
   function firstOpen() {
+    if (MAP.exists && MAP.status === 'proposed') return { id: null, view: 'map' };
     var unanswered = MILESTONES.filter(function (m) {
       return m.decisions && m.progress && m.progress.answered < m.progress.total;
     })[0];
     var pick = unanswered || MILESTONES[MILESTONES.length - 1];
-    if (!pick) return null;
+    if (!pick) return MAP.exists ? { id: null, view: 'map' } : null;
     return { id: pick.id, view: pick.decisions ? 'decisions' : 'final-look' };
+  }
+
+  function mapFlag() {
+    if (MAP.status === 'proposed') return ' <span class="flag">proposed</span>';
+    if (MAP.problems) return ' <span class="flag">' + MAP.problems + ' to fix</span>';
+    return '';
   }
 
   function button(label, pressed, onPick, disabled) {
@@ -75,31 +85,54 @@ function script() {
     return ' <span class="count">' + m.progress.answered + '/' + m.progress.total + '</span>';
   }
 
+  function gapsOf(m) {
+    return m.gaps || { unplayable: [], unshown: [], unguided: [] };
+  }
+
+  function decisionsFlag(m) {
+    var count = gapsOf(m).unplayable.length;
+    return count ? ' <span class="flag">' + count + ' not playable</span>' : '';
+  }
+
   function lookFlag(m) {
     var state = m.look ? m.look.state : 'none';
     if (state === 'stale') return ' <span class="flag">stale</span>';
     if (state === 'unstamped') return ' <span class="flag">unstamped</span>';
-    return '';
+    var count = gapsOf(m).unshown.length + gapsOf(m).unguided.length;
+    return count ? ' <span class="flag">' + count + ' unmarked</span>' : '';
+  }
+
+  function stripLines(m) {
+    var look = m.look || { state: 'none', drifted: [] };
+    var gaps = gapsOf(m);
+    var lines = [];
+    if (look.state === 'stale') {
+      lines.push('The final look of this milestone is behind its answers: <b>' + look.drifted.join(', ') +
+        '</b> changed since it was built.');
+    }
+    if (look.state === 'unstamped') {
+      lines.push('The final look of this milestone carries no stamp, so nothing can tell whether it matches the answers.');
+    }
+    if (gaps.unplayable.length) lines.push('Options with no playable prototype: <b>' + gaps.unplayable.join(', ') + '</b>.');
+    if (gaps.unshown.length) lines.push('Answers the final look never marks: <b>' + gaps.unshown.join(', ') + '</b>.');
+    if (gaps.unguided.length) lines.push('Exit check steps with no guide on the final look: <b>' + gaps.unguided.join(', ') + '</b>.');
+    return lines;
   }
 
   function renderStrip(m) {
-    var look = m.look || { state: 'none', drifted: [] };
-    if (look.state === 'stale') {
-      strip.innerHTML = 'The drawing of this milestone is behind its answers: <b>' +
-        look.drifted.join(', ') + '</b> changed since it was drawn. Run <code>/next</code> to redraw it.';
-      strip.hidden = false;
-      return;
-    }
-    if (look.state === 'unstamped') {
-      strip.innerHTML = 'The drawing of this milestone carries no stamp, so nothing can tell whether ' +
-        'it matches the answers. Run <code>/next</code> to redraw it.';
-      strip.hidden = false;
-      return;
-    }
-    strip.hidden = true;
+    var lines = stripLines(m);
+    strip.hidden = !lines.length;
+    if (lines.length) strip.innerHTML = lines.join('<br>') + ' Run <code>/next</code> to fix it.';
   }
 
   function show(next) {
+    if (ROOT_VIEWS[next.view]) {
+      current = next;
+      location.hash = next.view;
+      frame.src = ROOT_VIEWS[next.view];
+      render();
+      return;
+    }
     var m = milestone(next.id);
     if (!m) return;
     if (next.view === 'final-look' && !m.finalLook) next.view = 'decisions';
@@ -111,16 +144,29 @@ function script() {
   }
 
   function render() {
+    var onMap = Boolean(ROOT_VIEWS[current.view]);
+    mapNav.innerHTML = '';
+    mapNav.appendChild(button('Map' + mapFlag(), current.view === 'map', function () {
+      show({ id: null, view: 'map' });
+    }, !MAP.exists));
+    mapNav.appendChild(button('Presentation', current.view === 'presentation', function () {
+      show({ id: null, view: 'presentation' });
+    }, !PRESENTATION));
+
     msNav.innerHTML = '';
     MILESTONES.forEach(function (m) {
-      msNav.appendChild(button(m.title + countLabel(m), m.id === current.id, function () {
-        show({ id: m.id, view: current.view });
+      msNav.appendChild(button(m.title + countLabel(m), !onMap && m.id === current.id, function () {
+        show({ id: m.id, view: onMap ? 'decisions' : current.view });
       }));
     });
 
-    var m = milestone(current.id);
     viewNav.innerHTML = '';
-    [['decisions', 'Decisions', m.decisions], ['final-look', 'Final look' + lookFlag(m), m.finalLook]]
+    if (onMap) {
+      strip.hidden = true;
+      return;
+    }
+    var m = milestone(current.id);
+    [['decisions', 'Decisions' + decisionsFlag(m), m.decisions], ['final-look', 'Final look' + lookFlag(m), m.finalLook]]
       .forEach(function (row) {
         viewNav.appendChild(button(row[1], current.view === row[0], function () {
           show({ id: current.id, view: row[0] });
@@ -149,17 +195,19 @@ function script() {
 
   var start = fromHash() || firstOpen();
   if (start) show(start);
-  else document.body.innerHTML = '<p style="padding:24px">No milestone folders under docs/.</p>';
+  else document.body.innerHTML = '<p style="padding:24px">No capability map and no milestone folders under docs/.</p>';
   `;
 }
 
-export function shellPage(list) {
+export function shellPage({ list, map, presentation }) {
   return `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Product review</title>
 <style>${styles()}</style>
 <header>
+  <nav id="map-nav"></nav>
+  <span class="sep"></span>
   <nav id="ms"></nav>
   <span class="sep"></span>
   <nav id="views"></nav>
@@ -169,6 +217,9 @@ export function shellPage(list) {
 <iframe id="frame" title="Review page"></iframe>
 <script>
   var MILESTONES = ${JSON.stringify(list)};
+  var MAP = ${JSON.stringify(map)};
+  var PRESENTATION = ${JSON.stringify(Boolean(presentation))};
+  var ROOT_VIEWS = { map: 'map.html', presentation: 'presentation/deck.pdf' };
   ${script()}
 </script>
 `;

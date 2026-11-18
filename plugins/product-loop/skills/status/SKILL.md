@@ -9,25 +9,30 @@ Report where the product work stands. Read only, and cheap — never a step towa
 
 ## Read
 
-`docs/roadmap.md`, then every milestone's `_milestone.md`, then `docs/_current.md` when it exists,
-then the current milestone's `decisions.md` when it exists — its summary table only.
+`docs/capabilities.md` — its `Map:` line and summary table only. Then `docs/roadmap.md`, every
+milestone's `_milestone.md`, `docs/_current.md` when it exists, and the current milestone's
+`decisions.md` when it exists — its summary table only.
 
 Nothing else. No feature documents, no plans, no source code, no tests.
 
 ## Report
 
-Four parts, in this order.
+Five parts, in this order.
 
-One line per milestone: id, name, how many of its features are built out of the total, and its
-status.
+The map: how many capabilities it holds, and whether it reads `proposed` or `confirmed`. No
+`docs/capabilities.md` — say the product has no map yet.
+
+One line per milestone: id, name, its main capability by name, how many of its features are built
+out of the total, and its status.
 
 The features of the milestone marked `current`, one line each: id, name, decision, build.
 
 The open job, when `docs/_current.md` exists: the feature, the mode, and its next step verbatim.
 
-Anything waiting on the user, last, and named as an action they take. One is usual: decisions still
-holding a dash in `decisions.md`, counted and named by id. Nothing waiting — say so in those words.
-A row that only needs the next `/next` is not waiting on the user.
+Anything waiting on the user, last, and named as an action they take. A map still `proposed` waits
+on their confirmation. Decisions still holding a dash in `decisions.md` wait on their answers,
+counted and named by id. Nothing waiting — say so in those words. A row that only needs the next
+`/next` is not waiting on the user.
 
 ## Hold the line
 

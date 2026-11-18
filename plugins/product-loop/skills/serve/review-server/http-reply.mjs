@@ -13,6 +13,7 @@ const TYPES = {
   '.json': JSON_TYPE,
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
+  '.pdf': 'application/pdf',
 };
 
 export function typeOf(file) {

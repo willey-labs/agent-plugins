@@ -2,7 +2,7 @@
 
 import { readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve, sep } from 'node:path';
 
 import { answersIn, withAnswer } from './decisions-markdown.mjs';
 import { readBody, send, sendJson, sendNotFound, typeOf } from './http-reply.mjs';
@@ -16,6 +16,9 @@ export async function recordDecision({ req, res, folder }) {
   const body = await readBody(req);
   if (body === null) return sendJson({ res, status: 400, value: { error: 'body is not JSON' } });
   if (!body.id) return sendJson({ res, status: 400, value: { error: 'id is required' } });
+  if (typeof body.choice !== 'string') {
+    return sendJson({ res, status: 400, value: { error: 'choice is required: a letter, or "" to take the pick back' } });
+  }
 
   const written = withAnswer({
     text: await readFile(markdown, 'utf8'),
@@ -38,8 +41,8 @@ export async function sendAnswers({ res, folder }) {
   return sendJson({ res, status: 200, value: answersIn(await readFile(markdown, 'utf8')) });
 }
 
-export async function sendFile({ res, docs, folder, name }) {
-  const file = join(folder, name);
-  if (!file.startsWith(docs) || !existsSync(file)) return sendNotFound(res);
+export async function sendFile({ res, folder, name }) {
+  const file = resolve(folder, name);
+  if (!file.startsWith(resolve(folder) + sep) || !existsSync(file)) return sendNotFound(res);
   return send({ res, status: 200, body: await readFile(file), type: typeOf(file) });
 }
