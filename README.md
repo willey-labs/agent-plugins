@@ -61,6 +61,17 @@ goes to `/feature`. A sub-feature not built yet is named with the milestone that
 the product doing what it was built to do is left to the user: keep it, or change it as new work.
 Nothing is recorded before the user confirms the sort.
 
+`/prioritize` puts a milestone first when urgent work can't wait: `/prioritize m9` makes it current
+and pauses the one that was, which keeps its answers, its final look, its plans and its built slices
+and comes back next. It changes the order only; `/next` does the work.
+
+`/catch-up` brings the plan in line with work done outside the loop, such as an urgent fix made
+straight in the code. It reads the commits since the plan was last checked and puts each where the
+loop would have: planned slices marked built, fixes recorded as fixed bugs on the sub-feature they
+repaired, and new work placed on the map in milestones of its own, marked done, with the choices
+the code made written up as a review rebuilt from the commits. `/next` says when the plan was last
+checked some commits ago.
+
 `/serve` puts the review pages in front of the user, on one address that never changes. A Map tab
 draws the capability map with the milestones across it and lists any rule the map breaks, and a
 Presentation tab shows the roadmap deck. Tabs across the top reach every milestone, each offering

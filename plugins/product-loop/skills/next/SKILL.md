@@ -20,8 +20,9 @@ Read `docs/roadmap.md`. Use the first rule below that matches. Don't weigh them 
    line that the map still waits on the user. Otherwise run `/serve`, give the user the map's
    address, ask for the answer, and stop.
 3. Take the first milestone that isn't `done`. Read its `_milestone.md`.
-4. A feature with decision `open` — run BRAINSTORM. It covers every undecided feature in the
-   milestone at once.
+4. A feature with decision `open`, or `deciding` with no `docs/_current.md` — run BRAINSTORM. It
+   covers every undecided feature in the milestone at once, and a review already written keeps
+   every answer.
 5. All features decided, and the milestone folder has no `final-look.html`, or one whose stamp
    disagrees with `decisions.md`, or one missing the mark of an answered decision or an exit step —
    run FINAL LOOK.
@@ -37,6 +38,11 @@ slides past it to a later feature — name the row and the value, ask which valu
 
 Say what you're doing first, in one line: milestone, feature, mode, position. `M2 Reminders, F-03
 SMS reminders, brainstorm, 4 of 7 decisions answered.` The user can veto in one word.
+
+When `docs/roadmap.md` has a `Checked up to:` line and the default branch has commits after it that
+change files outside `docs/`, add a second line that counts only those commits: `The plan was last
+checked against the code 3 commits ago; run /catch-up if any of them was made outside the loop.`
+Then carry on with the pick.
 
 A feature id or a bug id is the only argument. A feature id only changes which feature you pick:
 `/next f-07` runs the same steps on that feature. A bug id runs FIX on that bug: `/next b-02`. The
@@ -156,6 +162,9 @@ stop. Answers come back in whatever order the user likes.
 A review page already written keeps every answer. Build any prototype it lacks — the review server
 names them on the Decisions tab — and change nothing else.
 
+A sub-feature the milestone page lists under `Built outside the loop` is settled: it gets no
+questions, and a feature whose sub-features are all listed there needs no review.
+
 Questions to cover for each feature, in this order, across the sub-features this milestone takes:
 who reaches it and what they want; what it holds; how it behaves when empty and when something it
 depends on is down; what someone can do to it; what it refuses; what it leaves to another feature,
@@ -240,7 +249,8 @@ call it.
 ## PLAN
 
 Cut the locked feature into slices along the sub-features this milestone takes. Every slice serves
-one sub-feature, and every sub-feature has at least one slice. If a slice can't be checked until
+one sub-feature, and every sub-feature has at least one slice, except one the milestone page lists
+under `Built outside the loop`, which is built already. If a slice can't be checked until
 another slice is done, it isn't a slice — merge it or cut differently.
 
 Each slice says what it does and how you'll check it. Write the check now, not after the code. Put

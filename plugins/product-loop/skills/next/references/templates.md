@@ -97,6 +97,8 @@ removes the line.
 ```markdown
 # Roadmap
 
+Checked up to: 4e1a9c2b7d0f3a6e8c5b1d9f2a4c6e8b0d2f4a6c
+
 | id | milestone | capability | status | folder |
 | -- | --------- | ---------- | ------ | ------ |
 | M1 | Online booking | C-01 | done | m1-online-booking/ |
@@ -105,7 +107,9 @@ removes the line.
 ```
 
 `capability` is the milestone's main capability. The order matters. `/next` takes the next row, not
-the interesting one. If the order is wrong, fix it here rather than working around it.
+the interesting one. If the order is wrong, fix it here or with `/prioritize`, rather than working
+around it. `Checked up to:` is the newest commit `/catch-up` read; a plan that has never been caught
+up has no such line.
 
 ## docs/m<n>-<name>/_milestone.md
 
@@ -143,6 +147,10 @@ Excludes: <what this milestone leaves for later, and which milestone gets it.>
 
 Write this file when the milestone opens, from the map, and write the exit check with it. Write it
 at the end and you'll write the check the work happens to pass.
+
+`/catch-up` adds a section when commits built part of the milestone before its review, one line per
+sub-feature with the commit that built it: `## Built outside the loop` then `- F-01.4 e8a2d26`. The
+review asks nothing about those sub-features, and the plan cuts no slice for them.
 
 `Also touches` lists every other capability the milestone pulls a sub-feature from. A sub-feature of
 the main capability shows a dash under `exit step`. Any other sub-feature names the exit step that
