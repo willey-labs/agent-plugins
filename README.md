@@ -35,6 +35,13 @@ milestone together as one clickable prototype, with a guide through its exit che
 feature gets sliced into a plan along its sub-features. A planned feature gets built one slice at a
 time. Passing a feature id changes which feature it picks, nothing else.
 
+`/feature` puts a new request on a product that already has a map. It finds the capability the
+request moves forward, adds the feature and its sub-features under it, and gives them a milestone:
+the current one while its review hasn't started, otherwise a new milestone of their own, so work
+already decided or being built is never sent back to its review. A request the map already holds is named,
+not added twice, and a fault in something already built is turned away as a fault, not new work. The
+map goes back to the user to confirm, and `/next` reaches the new milestone in roadmap order.
+
 `/serve` puts the review pages in front of the user, on one address that never changes. A Map tab
 draws the capability map with the milestones across it and lists any rule the map breaks, and a
 Presentation tab shows the roadmap deck. Tabs across the top reach every milestone, each offering

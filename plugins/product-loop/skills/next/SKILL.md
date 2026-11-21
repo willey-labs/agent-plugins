@@ -13,7 +13,9 @@ then do it.
 Read `docs/roadmap.md`. Use the first rule below that matches. Don't weigh them up.
 
 1. `docs/_current.md` exists — carry on from its `Next step`.
-2. No `docs/capabilities.md`, or its `Map:` line reads `proposed` — run MAP.
+2. No `docs/capabilities.md` — run MAP. Its `Map:` line reads `proposed` — the map waits on the
+   user's answer. Handle an answer in this message as MAP says. With none, run `/serve`, give the
+   user the map's address, ask for the answer, and stop.
 3. Take the first milestone that isn't `done`. Read its `_milestone.md`.
 4. A feature with decision `open` — run BRAINSTORM. It covers every undecided feature in the
    milestone at once.
@@ -101,7 +103,8 @@ features on the map under the milestone that built them, and cut only the work t
 Write `docs/capabilities.md` with `Map: proposed`, `docs/roadmap.md`, and the `_milestone.md` of the
 first milestone that isn't done, with its exit check. Run `/serve`, give the user the address, name
 the two or three calls most worth checking — a capability that might be named wrong, a milestone
-order that could go either way — and stop.
+order that could go either way, a milestone split in two for size and where the cut falls — and
+stop.
 
 When the user answers about a proposed map: a confirmation sets `Map: confirmed` and stops. Changes
 get made in the same files, the map stays `proposed`, and you hand the address back. A map that
