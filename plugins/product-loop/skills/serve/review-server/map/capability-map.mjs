@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import { labelled, tableWith } from './markdown-text.mjs';
 
 const CAPABILITY = /^##\s+(C-\d+)\s+(.+?)\s*$/;
-const FEATURE = /^###\s+(F-\d+)\s+(.+?)(?:\s+·\s+([a-z]+))?\s*$/;
+const FEATURE = /^###\s+([A-Z]+-?\d+)\s+(.+?)(?:\s+·\s+([a-z]+))?\s*$/;
 const LABEL_LINE = /^[A-Z][A-Za-z ]*:/;
 
 function blocksOf(lines) {

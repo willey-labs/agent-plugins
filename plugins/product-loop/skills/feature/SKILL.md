@@ -13,8 +13,9 @@ delivers it. Then hand the map back to the user, as MAP does.
 Read `docs/capabilities.md` and `docs/roadmap.md`. Read the `_milestone.md` of the first milestone
 that isn't `done`, and list that milestone's folder.
 
-No `docs/capabilities.md` means there is no map to add to. Say that `/next` maps the product first,
-with this request as part of the brief, and stop.
+No `docs/capabilities.md` means there is no map to add to. An empty project starts with
+`/start-project`, whose brief can hold this request. A project with code gets its map from `/next`,
+which maps what is built, and this request comes after. Say which applies, and stop.
 
 ## Read the request
 
@@ -31,9 +32,8 @@ another case, one more step — isn't on the map yet: it becomes a new sub-featu
 - The map holds it in `later`. The request is to schedule it: pick its milestone below and leave the
   rest of the map as it is.
 - The map holds it in a `done` milestone, and the user reports that the product no longer does what
-  the sub-feature says. That is a fault in built work, not new work. Name the sub-feature and the
-  milestone that built it, tell the user the fault is fixed in the code directly because the plan
-  has no step for fixes, and stop.
+  the sub-feature says. That is a fault in built work, not new work: hand the report to the issue
+  skill, and stop.
 - The map holds it in a `done` milestone, and nobody reports a fault. It is built already. Name it,
   and stop.
 - In a repo with work in it, read the screens, services and integrations of the request's area. When
@@ -53,7 +53,8 @@ Top down, in the naming forms of the next skill's `references/templates.md`:
    service or connection. A feature that serves other actors is no evidence that this actor uses
    it: when the map, the request and the repo don't show where this actor would do it, ask.
 3. Sub-features: each behaviour a person can see or a check can prove. New ids continue the
-   feature's numbering. An id already on the map never changes.
+   feature's numbering. A new feature takes the `F-` number after the highest one on the map, and a
+   new capability the `C-` number after the highest. An id already on the map never changes.
 
 ## Pick the milestone
 
@@ -86,17 +87,21 @@ Once the milestone is picked, say in one line what the request becomes:
 
 ## Hand it over
 
-Set `Map: proposed`, and change the summary table and the sections in the same edit. Run `/serve`,
+Set `Map: proposed`, and change the summary table and the sections in the same edit. On the line
+under it, write `Changed:` with the id of every milestone this request touched (`Changed: M5`); when
+the line is there already, add the ids to it. Work on the current milestone goes on while the map
+waits, unless the current milestone is one of them. Run `/serve`,
 give the user the address, and name each call to check, most important first: a milestone split for
 size and where the cut falls, a request that couldn't join the current milestone because it would
-pass 15 sub-features, an exit step added, a sentence widened, a milestone renamed, the capability the request went under, an existing feature
-extended or a new one added, and the new milestone's place in the order. Tell the user the map waits
-on their answer: an open job in `docs/_current.md` carries on, and nothing else moves until they
-answer. The server stops after fifteen idle minutes, and `/serve` brings it back. Stop.
+pass 15 sub-features, an exit step added, a sentence widened, a milestone renamed, the capability
+the request went under, an existing feature extended or a new one added, and the new milestone's
+place in the order. Tell the user the map waits on their answer, and what goes on meanwhile: the
+current milestone's work when the change left it alone, otherwise only an open job in
+`docs/_current.md`. The server stops after fifteen idle minutes, and `/serve` brings it back. Stop.
 
-When the user answers, a confirmation sets `Map: confirmed` and stops. Changes go into the same
-files, and the map stays `proposed`. Once the map reads `confirmed`, `/next` reaches the new work in
-roadmap order.
+When the user answers, a confirmation sets `Map: confirmed`, removes the `Changed:` line, and stops.
+Changes go into the same files, and the map stays `proposed`. Once the map reads `confirmed`,
+`/next` reaches the new work in roadmap order.
 
 ## Files you may write
 

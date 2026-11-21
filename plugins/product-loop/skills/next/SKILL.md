@@ -14,8 +14,11 @@ Read `docs/roadmap.md`. Use the first rule below that matches. Don't weigh them 
 
 1. `docs/_current.md` exists — carry on from its `Next step`.
 2. No `docs/capabilities.md` — run MAP. Its `Map:` line reads `proposed` — the map waits on the
-   user's answer. Handle an answer in this message as MAP says. With none, run `/serve`, give the
-   user the map's address, ask for the answer, and stop.
+   user's answer. Handle an answer in this message as MAP says. With none, look for a `Changed:`
+   line under the `Map:` line. When it names only milestones that aren't the first one not `done`,
+   the change waits without holding up the current work: go on to rule 3, and say in the opening
+   line that the map still waits on the user. Otherwise run `/serve`, give the user the map's
+   address, ask for the answer, and stop.
 3. Take the first milestone that isn't `done`. Read its `_milestone.md`.
 4. A feature with decision `open` — run BRAINSTORM. It covers every undecided feature in the
    milestone at once.
@@ -35,18 +38,21 @@ slides past it to a later feature — name the row and the value, ask which valu
 Say what you're doing first, in one line: milestone, feature, mode, position. `M2 Reminders, F-03
 SMS reminders, brainstorm, 4 of 7 decisions answered.` The user can veto in one word.
 
-A feature id is the only argument, and it only changes which feature you pick. `/next f-07` runs the
-same steps on that feature. Anything else passed is not an argument — say so and read the state.
+A feature id or a bug id is the only argument. A feature id only changes which feature you pick:
+`/next f-07` runs the same steps on that feature. A bug id runs FIX on that bug: `/next b-02`. The
+rules above never pick a bug; a bug is fixed only when it is named. Anything else passed is not an
+argument — say so and read the state.
 
 ## Files you may open
 
 `docs/roadmap.md` and `docs/capabilities.md`. `docs/_current.md` if it exists. The current
 milestone's `_milestone.md`, `decisions.md`, `decisions.html` and `final-look.html`. The feature
 documents listed in the row's `needs` column. In BUILD, the source files the slice names. In MAP,
-every milestone's `_milestone.md` and the sources MAP names.
+every milestone's `_milestone.md` and the sources MAP names. In FIX, `docs/bugs.md`, the feature
+document of the bug's sub-feature, and the source files the fix touches.
 
-Don't open another milestone's folder outside MAP. Don't open a feature document you aren't working
-on. Don't open source code outside BUILD and MAP. Don't read all of `docs/`.
+Don't open another milestone's folder outside MAP and FIX. Don't open a feature document you aren't
+working on. Don't open source code outside BUILD, FIX and MAP. Don't read all of `docs/`.
 
 ## One job at a time
 
@@ -57,7 +63,8 @@ opening line that you set the argument aside and which job took its place.
 ## MAP
 
 Lay the product out as business capabilities, then features, then sub-features, and cut the
-milestones across that map. Nothing else runs until the user confirms it.
+milestones across that map. Nothing else runs until the user confirms it, except the current
+milestone's work while a `Changed:` line leaves that milestone out (rule 2).
 
 Read what the product is from the user's brief and the documents they point to. In a repo that
 already has work in it, also read what is built — its screens, services and integrations — and its
@@ -106,9 +113,9 @@ the two or three calls most worth checking — a capability that might be named 
 order that could go either way, a milestone split in two for size and where the cut falls — and
 stop.
 
-When the user answers about a proposed map: a confirmation sets `Map: confirmed` and stops. Changes
-get made in the same files, the map stays `proposed`, and you hand the address back. A map that
-changes after it's confirmed goes back to `proposed`.
+When the user answers about a proposed map: a confirmation sets `Map: confirmed`, removes the
+`Changed:` line, and stops. Changes get made in the same files, the map stays `proposed`, and you
+hand the address back. A map that changes after it's confirmed goes back to `proposed`.
 
 ## BRAINSTORM
 
@@ -258,20 +265,41 @@ every one of those marks — don't ask the user to confirm what the check alread
 If a build session runs long, stop the way a brainstorm does: write `docs/_current.md` with the
 slice and what's left, then tell the user to start a new session.
 
+## FIX
+
+Fix one bug from `docs/bugs.md`. A bug that reads `fixed` — say so, and stop.
+
+Write a check that does what the bug's `How to see it` says and expects `What should happen`. Run
+it and see it fail, then set the bug to `fixing`. A check that passes before any change doesn't
+reproduce the bug yet: make it follow `How to see it` more closely, with the data the product
+really stores. When it still passes, the fault isn't where the bug says: say so, and stop. Then
+write just enough code to pass it, and run it with the checks already there.
+
+Touch only what the fix needs. When the fix would change what the feature document says, it isn't a
+fault in built work: stop, and say the change is new work for the feature skill.
+
+Follow the repo's coding standards.
+
+When the check passes, name it under `Fixed by`, set the bug to `fixed`, and stop. The passing check
+is the authority for that mark.
+
 ## CLOSE
 
 Run the milestone's exit check from `_milestone.md`. Report each step as pass or fail, with the
 evidence.
 
 All steps pass — set the milestone to `done` and the next one to `current`, then open it: write its
-`_milestone.md` from the map, with its features, its sub-features and a fresh exit check. Say which
-feature `/next` will pick up. Any step fails — say which one, and stop. Don't close it.
+`_milestone.md` from the map, with its features, its sub-features and a fresh exit check. When
+`/decide` opened it earlier, its `_milestone.md` is there already: keep it, its exit check, its
+feature rows with their decisions, and its `decisions.md`, and bring only its sub-features in line
+with the map. Say which feature `/next` will pick up. Any step fails — say
+which one, and stop. Don't close it.
 
 ## Templates
 
 Read `references/templates.md` before writing `docs/capabilities.md`, `docs/roadmap.md`, a
 `_milestone.md`, `docs/_current.md`, a `decisions.md`, a `decisions.html`, a `final-look.html`, a
-feature document, or a plan.
+feature document, a plan, or `docs/bugs.md`.
 
 ## What ships alongside
 
@@ -293,7 +321,8 @@ repeats.
 - You're about to put a sub-feature from another capability into a milestone without an exit step
   that needs it.
 - You're about to change a `done` milestone while mapping.
-- You're about to start a brainstorm while the map is still `proposed`.
+- You're about to start a brainstorm while the map is still `proposed`, unless its `Changed:` line
+  leaves the current milestone out.
 - You're about to ask questions one at a time in chat instead of writing the review.
 - You're about to send the user to `decisions.html` as a file, or to a `node` command, instead of
   the address `/serve` gives.

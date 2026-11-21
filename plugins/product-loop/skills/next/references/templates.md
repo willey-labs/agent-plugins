@@ -8,9 +8,11 @@ Feature decision: `open` · `deciding` · `locked`
 Feature build: `none` · `planned` · `building` · `built`
 Feature kind: `page` · `contract` · `job` · `integration`
 Plan slice state: `none` · `built`
+Bug status: `open` · `fixing` · `fixed`
 
 Exactly one milestone is `current`. A feature reaches `planned` once its decision is `locked`,
-`building` once a slice of its plan passes its own check, and `built` once every slice does.
+`building` once a slice of its plan passes its own check, and `built` once every slice does. A bug
+reaches `fixing` once its failing check is written, and `fixed` once that check passes.
 
 Every example below comes from one made-up product: a clinic's booking system.
 
@@ -84,8 +86,11 @@ Sub-feature ids are the feature id plus a number, and they never change once wri
 a sub-feature no milestone takes yet. The summary table and the sections say the same thing; change
 both in one edit.
 
-`Map: proposed` means the user hasn't confirmed it. Nothing past MAP runs until it reads `confirmed`,
-and any later change to the map sets it back to `proposed`.
+`Map: proposed` means the user hasn't confirmed it, and any later change to the map sets it back to
+`proposed`. A change to a confirmed map adds a line under it, `Changed: M5`, naming every milestone
+the change touched. Without that line nothing past MAP runs until the map reads `confirmed`; with
+it, the current milestone's work goes on while the line leaves that milestone out. The confirmation
+removes the line.
 
 ## docs/roadmap.md
 
@@ -406,3 +411,28 @@ options, no reasons for the choice.
 Each check has to pass or fail on its own, with no other slice finished. Slice one is the one most
 likely to prove the plan wrong. A slice reads `none` until its own check passes, and `built` after.
 Every sub-feature the milestone takes from this feature has at least one slice.
+
+## docs/bugs.md
+
+Every fault found in built work, each tied to the sub-feature it breaks.
+
+```markdown
+# Bugs
+
+| id | bug | sub-feature | built in | status | reported |
+| -- | --- | ----------- | -------- | ------ | -------- |
+| B-01 | Every slot shows as full | F-01.1 | M1 | fixed | 2026-03-02 |
+| B-02 | Reminder sent twice | F-03.1 | M2 | open | 2026-03-09 |
+
+## B-02 Reminder sent twice
+
+Sub-feature: F-03.1 Send a reminder 24 hours before
+Reported by: Receptionist, 2026-03-09
+What happens: A patient with one visit tomorrow gets two reminders.
+What should happen: One reminder, 24 hours before the visit.
+How to see it: Book a visit for tomorrow, let the reminder run, count the messages.
+Fixed by: —
+```
+
+Bug ids never change and are never reused. A fixed bug keeps its row and its section, and
+`Fixed by` names the check that proves the fix.

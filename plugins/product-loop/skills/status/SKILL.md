@@ -10,14 +10,15 @@ Report where the product work stands. Read only, and cheap — never a step towa
 ## Read
 
 `docs/capabilities.md` — its `Map:` line and summary table only. Then `docs/roadmap.md`, every
-milestone's `_milestone.md`, `docs/_current.md` when it exists, and the current milestone's
-`decisions.md` when it exists — its summary table only.
+milestone's `_milestone.md`, `docs/_current.md` when it exists, the `decisions.md` of every
+milestone that isn't `done` — its summary table only — and `docs/bugs.md` when it exists — its
+summary table only.
 
 Nothing else. No feature documents, no plans, no source code, no tests.
 
 ## Report
 
-Five parts, in this order.
+Six parts, in this order.
 
 The map: how many capabilities it holds, and whether it reads `proposed` or `confirmed`. No
 `docs/capabilities.md` — say the product has no map yet.
@@ -29,9 +30,12 @@ The features of the milestone marked `current`, one line each: id, name, decisio
 
 The open job, when `docs/_current.md` exists: the feature, the mode, and its next step verbatim.
 
+The bugs not yet `fixed`, one line each: id, name, the sub-feature it breaks, and its status. No
+`docs/bugs.md`, or every bug fixed — say there are no open bugs.
+
 Anything waiting on the user, last, and named as an action they take. A map still `proposed` waits
-on their confirmation. Decisions still holding a dash in `decisions.md` wait on their answers,
-counted and named by id. Nothing waiting — say so in those words. A row that only needs the next
+on their confirmation. Decisions still holding a dash in a `decisions.md` wait on their answers,
+counted and named by id, per milestone. Nothing waiting — say so in those words. A row that only needs the next
 `/next` is not waiting on the user.
 
 ## Hold the line
