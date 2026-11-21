@@ -1,6 +1,6 @@
 {
   "name": "product-loop",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Drives product work one unit at a time: a new project's brief turned into a capability map the user confirms, new requests placed on it, reported problems sorted into bugs or new work, a decision review the user answers on time or ahead of a milestone's turn, a locked feature document, a sliced plan, then the build and bug fixes. Presents the roadmap as a slide deck.",
   "author": {
     "name": "willey-labs"

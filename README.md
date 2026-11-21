@@ -44,8 +44,9 @@ only when named.
 
 `/feature` puts a new request on a product that already has a map. It finds the capability the
 request moves forward, adds the feature and its sub-features under it, and gives them a milestone:
-the current one while its review hasn't started, otherwise a new milestone of their own, so work
-already decided or being built is never sent back to its review. A request the map already holds is
+the current one while its review hasn't started, otherwise a later milestone of the same capability
+that hasn't started its review, otherwise a new milestone of their own, so work already decided or
+being built is never sent back to its review. A request the map already holds is
 named, not added twice, and a fault in something already built goes to `/issue`. The map goes back
 to the user to confirm, and `/next` reaches the new milestone in roadmap order.
 

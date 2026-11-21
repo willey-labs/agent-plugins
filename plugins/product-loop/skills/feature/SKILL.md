@@ -44,17 +44,19 @@ another case, one more step — isn't on the map yet: it becomes a new sub-featu
 Top down, in the naming forms of the next skill's `references/templates.md`:
 
 1. Capability: the area of the business the request belongs to, serving the request's actor. When
-   that capability's outcome sentence leaves the actor or the request out, widen the sentence in the
-   same edit. When no capability covers the area, add one, with the actor it serves and one sentence
-   on the outcome. A capability is an area the owner would notice missing, never a part of the
-   system.
+   that capability leaves the actor or the request out, widen it in the same edit: the actor in its
+   `Serves:` line and in the summary table, the request in its outcome sentence. When no capability
+   covers the area, add one, with the actor it serves and one sentence on the outcome. A capability
+   is an area the owner would notice missing, never a part of the system.
 2. Feature: the screen, service or connection people point at, under exactly one capability, with
    its kind. The request extends an existing feature when people would do it on that same screen,
-   service or connection. A feature that serves other actors is no evidence that this actor uses
-   it: when the map, the request and the repo don't show where this actor would do it, ask.
+   service or connection. When the map, the request and the repo don't show where the request's
+   actor would do it, ask. A feature that serves other actors is no evidence. When an extended
+   feature's name no longer says what it holds, rename it, keeping its id.
 3. Sub-features: each behaviour a person can see or a check can prove. New ids continue the
    feature's numbering. A new feature takes the `F-` number after the highest one on the map, and a
-   new capability the `C-` number after the highest. An id already on the map never changes.
+   new capability the `C-` number after the highest. An id or a milestone folder already written
+   never changes, even when its name does.
 
 ## Pick the milestone
 
@@ -70,14 +72,23 @@ Take the first that fits:
      `exit step` column for any sub-feature that names a later step.
    - When the milestone's goal no longer covers what it delivers, widen it, still on one line. When
      its name no longer says what it delivers, rename it on its page and in its roadmap row.
-2. A new milestone, with the request's capability as its main capability and a name that says what
+2. An open milestone later in the roadmap, the first in roadmap order that fits: its main
+   capability is the request's capability, its review hasn't started (its folder holds no
+   `decisions.md`), and it stays within 15 sub-features. When it has a `_milestone.md` already,
+   change that page as rule 1 says. Otherwise only the map changes, and its page is written when it
+   becomes current. When its name no longer says what it delivers, rename it in its roadmap row,
+   and on its page when it has one.
+3. A new milestone, with the request's capability as its main capability and a name that says what
    gets delivered. Its id is the next number the roadmap hasn't used, wherever its row goes, and its
    folder is `m<n>-<name>/`. Add its row to `docs/roadmap.md` with status `open`, after the last
    milestone that isn't `done`. When the user wants it sooner ("now", "next", "first") and the
    current milestone can't take it, put it right after the current milestone and say why it couldn't
-   join. Past 15 sub-features, split it into consecutive milestones along the
-   features. Its goal, exit check and `_milestone.md` are written when it becomes current.
-3. `later`, when the user says it isn't for now.
+   join. Past 15 sub-features, split it into consecutive milestones along the features. Its goal,
+   exit check and `_milestone.md` are written when it becomes current.
+4. `later`, when the user says it isn't for now.
+
+When the user wants it sooner and rule 2 finds a milestone, name both places: the milestone that
+fits, and a new one right after the current milestone. Ask which, and wait.
 
 A milestone whose review has started takes no new work: decisions come before building, and the
 review covers the features it started with. A `done` milestone takes no new work.
@@ -90,14 +101,16 @@ Once the milestone is picked, say in one line what the request becomes:
 Set `Map: proposed`, and change the summary table and the sections in the same edit. On the line
 under it, write `Changed:` with the id of every milestone this request touched (`Changed: M5`); when
 the line is there already, add the ids to it. Work on the current milestone goes on while the map
-waits, unless the current milestone is one of them. Run `/serve`,
-give the user the address, and name each call to check, most important first: a milestone split for
-size and where the cut falls, a request that couldn't join the current milestone because it would
-pass 15 sub-features, an exit step added, a sentence widened, a milestone renamed, the capability
-the request went under, an existing feature extended or a new one added, and the new milestone's
-place in the order. Tell the user the map waits on their answer, and what goes on meanwhile: the
-current milestone's work when the change left it alone, otherwise only an open job in
-`docs/_current.md`. The server stops after fifteen idle minutes, and `/serve` brings it back. Stop.
+waits, unless the current milestone is one of them. Run `/serve`, give the user the address, and
+name each call to check, most important first: a milestone split for size and where the cut falls,
+a request that couldn't join a milestone because it would pass 15 sub-features, a later milestone
+the request joined, an exit step added, a sentence widened, a milestone renamed, the capability the
+request went under, an existing feature extended or a new one added, and the new milestone's place
+in the order. When the `Changed:` line held milestones before this request, one answer covers those
+changes too: name them first. Tell the user the map waits on their answer, and what goes on
+meanwhile: the current milestone's work when the change left it alone, otherwise only an open job
+in `docs/_current.md`. The server stops after fifteen idle minutes, and `/serve` brings it back.
+Stop.
 
 When the user answers, a confirmation sets `Map: confirmed`, removes the `Changed:` line, and stops.
 Changes go into the same files, and the map stays `proposed`. Once the map reads `confirmed`,
@@ -105,8 +118,8 @@ Changes go into the same files, and the map stays `proposed`. Once the map reads
 
 ## Files you may write
 
-`docs/capabilities.md`, `docs/roadmap.md`, and the current milestone's `_milestone.md` when the
-request joins it. Nothing else.
+`docs/capabilities.md`, `docs/roadmap.md`, and the `_milestone.md` of the milestone the request
+joins, when that page exists. Nothing else.
 
 ## Stop and ask if
 
