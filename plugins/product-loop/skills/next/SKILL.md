@@ -186,14 +186,16 @@ Writing the options:
 - Prototype what the option leads to — that's playable even when the option is a rule. Usually one
   of these: what it leaves behind after a month of use, what it adds to a screen people already
   use, how long it makes someone wait next to the alternative, or what someone sees when it breaks.
-- Put an option's prototype next to its rivals, at the size it will really be, from the same
-  starting state and the same data, so the difference is what the user finds.
+- Draw every option at the real size of the product area it changes, on desktop and in the
+  product's phone layout, from the same starting state and the same data. The review frame shows
+  one option and one decision per screen, and the user slides between them, so the difference is
+  what the user finds.
 - Give every decision a Play that fires the moment that matters into all its options at once and
   ends each with what happened to the person in it. Decisions about time — something that moves,
   arrives late, reorders itself or interrupts someone — depend on it most.
 - If the options can't be made to play differently, they aren't a decision. Settle it, or find the
   moment where they part.
-- Keep the review to one page and one file.
+- Keep the review to one page and one file, built on the review frame the template names.
 - If an answer would contradict a locked document, say so straight away. Don't change a locked
   document from inside another feature's session.
 

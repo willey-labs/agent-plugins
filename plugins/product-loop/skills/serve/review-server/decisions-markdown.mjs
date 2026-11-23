@@ -10,7 +10,7 @@ export function answersIn(text) {
     if (decision && id) {
       const value = decision[1].trim();
       if (value && value !== '—' && value !== '-') {
-        const [, letter, note] = value.match(/^([A-Za-z])\s*(?:—\s*)?(.*)$/) ?? [];
+        const [, letter, note] = value.match(/^([A-Za-z]?)\s*(?:[—-]\s*)?(.*)$/) ?? [];
         answers[id.toLowerCase().replace('-', '')] = {
           choice: (letter ?? '').toLowerCase(),
           note: (note ?? '').trim(),
@@ -24,15 +24,17 @@ export function answersIn(text) {
 
 export function progressOf(text) {
   const lines = text.split('\n').filter((line) => line.startsWith('Decision:'));
-  const open = lines.filter((line) => /^Decision:\s*[—-]?\s*$/.test(line)).length;
+  const open = lines.filter((line) => /^Decision:\s*(?:[—-].*)?$/.test(line)).length;
   return { answered: lines.length - open, total: lines.length };
 }
 
-/** Rewrites the decision's own line and its row in the summary table; both hold the same letter. */
+/** Rewrites the decision's own line, its note kept with or without a letter, and the letter in its summary table row. */
 export function withAnswer({ text, id, choice, note }) {
   const upper = id.toUpperCase().replace(/^D(\d+)$/, 'D-$1');
   const letter = choice ? choice.toUpperCase() : '';
-  const written = letter ? (note ? `${letter} — ${note}` : letter) : '—';
+  const words = (note ?? '').replace(/\s+/g, ' ').trim();
+  const written = words ? `${letter || '—'} ${letter ? '— ' : ''}${words}` : letter || '—';
+  const cell = letter || '—';
 
   const lines = text.split('\n');
   let inSection = false;
@@ -47,7 +49,7 @@ export function withAnswer({ text, id, choice, note }) {
     }
     if (lines[i].startsWith(`| ${upper} |`)) {
       const cells = lines[i].split('|');
-      cells[cells.length - 2] = ` ${written} `;
+      cells[cells.length - 2] = ` ${cell} `;
       lines[i] = cells.join('|');
     }
   }

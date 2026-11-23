@@ -239,15 +239,52 @@ Each decision holds: the id, the question, the sub-feature it shapes, one line o
 it, one prototype per option, the cost under each option, the recommendation marked, a pick control
 per option, and a note field. A count of answered decisions sits at the top.
 
+### The review frame
+
+Every review page runs on the frame in `review-frame/` beside this file, copied in whole: `frame.css`
+into the page's style after the page's own tokens, and the seven scripts as one inline script after
+the page's prototype kit, in this order: `state.js`, `playing.js`, `run.js`, `answers.js`,
+`slider.js`, `deck.js`, `screen.js`. The page defines each decision with `defineDecision(id,
+{ states, render, play, mobile })` and calls `startReview(config)` once its fonts are ready. Nothing
+the frame does is written again in the page.
+
+The frame gives every review one shape:
+
+- One decision per screen. Chips across the top move between decisions, with their arrows and the
+  up and down keys. Answered decisions show green. The page never scrolls, and it opens on the first
+  decision still open.
+- One option per screen, at the real size of the product area it changes. The user slides between
+  options with a drag or a swipe, the arrows beside the drawing, the left and right keys, or the
+  option letters, back and forward as often as they like. A decision opens on its picked option.
+- The option's title, cost, Play result and Pick button sit beside the drawing, never inside it.
+- A Desktop / Mobile switch in the header redraws every option at the desktop size or in a phone
+  screen.
+- A note saves with or without a pick. A note with no pick keeps the decision open.
+
+What the page supplies:
+
+- `startReview({ desktop: { width }, mobile: { width }, publishedAt })`. `desktop.width(screen)`
+  returns, in pixels, the width the changed area has on the reviewer's screen: the whole screen for a
+  full page, the column's own width for a column that sits between fixed side columns. `mobile.width`
+  is the phone width, 390 unless the product targets another. One review uses one size for every
+  decision, and the height is always the screen's. `publishedAt` names where the user answers when
+  no review server is behind the page.
+- Each prototype draws what the product draws in that area and nothing around it, filling the
+  frame's height: lists and message areas take the height left over and scroll inside, as the
+  product's do. A list that opens at its newest item carries `data-scroll="newest"`.
+- `ctx.device` names the size being drawn. Every option is built for both, the phone one in the
+  product's own phone layout, never the desktop layout squeezed. A decision whose area has no phone
+  screen in the product sets `mobile: false`, and the frame says so in place of a drawing.
+
 ### Every option is a prototype
 
 Each option gets a small working piece of the product, built the way that option makes it behave,
 at the size it will really be. The user clicks, types, submits and switches in it. An option the
 user can only look at or read about is one they can't weigh.
 
-The prototypes of one decision sit side by side, start from the same state and hold the same made-up
-data, so the difference between the options is what the user finds by using them. The data
-exercises that difference: a limit has something at it, a threshold has something on each side.
+The prototypes of one decision start from the same state and hold the same made-up data, so sliding
+from one to the next shows only the difference between the options. The data exercises that
+difference: a limit has something at it, a threshold has something on each side.
 
 Every decision carries three controls that act on all its options at once:
 
@@ -256,7 +293,7 @@ Every decision carries three controls that act on all its options at once:
 - Play, which runs the moment that matters. A pointer stands in for the person and does what they'd
   be doing, the same thing in every option at the same moment, and each option ends with a line
   saying what happened to that person: what opened, what they lost, what they never saw. It plays
-  once when the decision first scrolls into view. With reduced motion on, it jumps to the end state.
+  once when the decision first comes on screen. With reduced motion on, it jumps to the end state.
 - Reset, which puts every option back where it started.
 
 After Play the prototypes stay live, so the user can take over from where the pointer stopped.
@@ -292,9 +329,10 @@ out in full in the file, never assembled by script: the server reads the file, n
 ### Writing it in passes
 
 The review stays one page in one file, written in passes so that no single write carries the whole
-of it. First the frame: the count, the saving, and one shared kit holding the state switch, Play,
-the pointer and Reset. Then one feature's decisions per edit, every prototype built from that kit.
-Before handing over the address, check that every option of every decision carries its mark.
+of it. First the page's tokens, its header with the count and the save note, the product kit its
+prototypes share, and the review frame copied in after it. Then one feature's decisions per edit,
+every prototype built from that kit at both sizes. Before handing over the address, check that every
+option of every decision carries its mark.
 
 The page works out where it's running and saves accordingly. Behind the review server it uses three
 paths, each relative to the page's own address:
@@ -302,11 +340,11 @@ paths, each relative to the page's own address:
 | request | sends | gets back |
 | ------- | ----- | --------- |
 | GET `decisions.json` | nothing | every answer so far, keyed by the decision id in lower case without its dash: `{"d04": {"choice": "b", "note": ""}}` |
-| POST `decision` | `{"id": "D-04", "choice": "b", "note": "the user's words"}`; `"choice": ""` takes the pick back | `{"ok": true}` once the answer is written into `decisions.md` |
+| POST `decision` | `{"id": "D-04", "choice": "b", "note": "the user's words"}`; `"choice": ""` with a note saves the note and keeps the decision open, and with no note takes the pick back | `{"ok": true}` once the answer is written into `decisions.md` |
 | GET `health` | nothing | `{"signature": "product-loop/review", …}`; that signature is how the page knows the review server is behind it |
 
-A pick counts as saved only when `{"ok": true}` comes back. Any other reply leaves the option
-unpicked and says the pick didn't save. Published, the page saves to its own store instead. Opened
+A pick or a note counts as saved only when `{"ok": true}` comes back. Any other reply leaves the
+decision as it was and says it didn't save. Published, the page saves to its own store instead. Opened
 as a bare file, it says plainly that picks aren't being saved rather than losing them quietly.
 
 Use relative paths, never a leading slash. The page is served from inside its milestone's folder,
@@ -341,6 +379,8 @@ it and nowhere else. A list that waits for a click before reordering waits.
 Controls sit around the product's screens, never inside them:
 
 - A role switch over every role the feature documents name, showing what each can and can't do.
+- A Desktop / Mobile switch: the product at its desktop layout, and at the phone width in its own
+  phone layout.
 - A state switch: empty, error, a dependency slow or down.
 - A clock for jobs: fire the event and fast-forward.
 - An exit check guide listing the milestone's exit check steps. Picking a step sets the prototype to

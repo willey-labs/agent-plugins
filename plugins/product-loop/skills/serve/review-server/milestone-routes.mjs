@@ -17,7 +17,7 @@ export async function recordDecision({ req, res, folder }) {
   if (body === null) return sendJson({ res, status: 400, value: { error: 'body is not JSON' } });
   if (!body.id) return sendJson({ res, status: 400, value: { error: 'id is required' } });
   if (typeof body.choice !== 'string') {
-    return sendJson({ res, status: 400, value: { error: 'choice is required: a letter, or "" to take the pick back' } });
+    return sendJson({ res, status: 400, value: { error: 'choice is required: a letter, or "" for a note with no pick or to take the pick back' } });
   }
 
   const written = withAnswer({
