@@ -74,13 +74,13 @@ body.paged { height: 100vh; overflow: hidden; }
 body.paged main { max-width: none; height: calc(100vh - var(--top-h, 0px)); margin: 0; padding: 10px 24px 0; overflow: hidden; }
 body.paged .review-top .goal, body.paged .feature-title, body.paged .feature-settled { display: none; }
 body.paged .decision { display: none; margin: 0; }
-body.paged .decision.current { display: grid; grid-template-columns: minmax(300px, 1fr) calc(var(--real-w, 650px) + 120px); grid-template-rows: auto auto auto auto 1fr; align-content: start; column-gap: 24px; height: calc(100% - 10px); }
+body.paged .decision.current { display: grid; grid-template-columns: minmax(300px, 1fr) calc(var(--real-w, 650px) + 120px); grid-template-rows: auto auto auto auto 1fr; align-content: start; column-gap: 24px; height: calc(100% - 10px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
 body.paged .decision.current > .d-head { grid-column: 1; grid-row: 1; }
 body.paged .decision.current > .d-controls { grid-column: 1; grid-row: 2; }
 body.paged .decision.current > .opt-detail { grid-column: 1; grid-row: 3; }
 body.paged .decision.current > .d-note { grid-column: 1; grid-row: 4; }
 body.paged .decision.current > .d-saved { grid-column: 1; grid-row: 5; align-self: start; }
-body.paged .decision.current > .slider { grid-column: 2; grid-row: 1 / -1; }
+body.paged .decision.current > .slider { grid-column: 2; grid-row: 1 / -1; align-self: start; position: sticky; top: 0; }
 
 .deck-nav { display: flex; flex: 1 1 600px; flex-wrap: wrap; align-items: center; gap: 6px; }
 .deck-dot { height: 28px; padding: 0 9px; border: 1px solid var(--rf-border); border-radius: 999px; background: var(--rf-canvas); font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--rf-mid); cursor: pointer; }
