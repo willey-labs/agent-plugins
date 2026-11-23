@@ -257,6 +257,7 @@ The frame gives every review one shape:
   options with a drag or a swipe, the arrows beside the drawing, the left and right keys, or the
   option letters, back and forward as often as they like. A decision opens on its picked option.
 - The option's title, cost, Play result and Pick button sit beside the drawing, never inside it.
+  When that column runs taller than the screen, it scrolls and the drawing stays in place.
 - A Desktop / Mobile switch in the header redraws every option at the desktop size or in a phone
   screen.
 - A note saves with or without a pick. A note with no pick keeps the decision open.
