@@ -8,7 +8,7 @@
     {
       "name": "product-loop",
       "description": "Drives product work one unit at a time, from capability map to built slice.",
-      "version": "1.8.1",
+      "version": "1.8.2",
       "source": "./plugins/product-loop"
     }
   ]

@@ -107,9 +107,9 @@ body.paged .decision.current > .slider { grid-column: 2; grid-row: 1 / -1; align
 .options.track { display: flex; gap: 0; height: var(--slide-h, 80vh); overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; cursor: grab; }
 .options.track::-webkit-scrollbar { display: none; }
 .options.track.dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
-.options.track > .option { flex: 0 0 100%; min-height: 0; padding: 0 max(12px, calc((100% - var(--real-w, 650px)) / 2)); scroll-snap-align: start; scroll-snap-stop: always; }
+.options.track > .option { flex: 0 0 100%; display: flex; flex-direction: column; box-sizing: border-box; height: var(--slide-h, 80vh); min-height: 0; padding: 3px max(12px, calc((100% - var(--real-w, 650px)) / 2)); scroll-snap-align: start; scroll-snap-stop: always; }
 .options.track > .option > :not(.proto) { display: none; }
-.options.track > .option > .proto { height: var(--slide-h, 80vh); }
+.options.track > .option > .proto { flex: 1 1 0; height: auto; min-height: 0; }
 .options.track > .option.picked > .proto { box-shadow: 0 0 0 2px var(--rf-green); }
 .device-mobile .options.track > .option > .proto { border-radius: 28px; border-width: 6px; border-color: #1f1f1f; }
 .slide-arrow { position: absolute; top: 50%; z-index: 40; width: 44px; height: 44px; margin-top: -22px; box-shadow: var(--rf-shadow-md); }
