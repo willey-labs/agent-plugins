@@ -10,11 +10,15 @@ function reviewRealWidth() {
   return Math.round(Math.max(280, Math.min(wanted, window.innerWidth - REVIEW_SIDE_COLUMN)));
 }
 
+function reviewHeightAboveDecisions() {
+  return Math.ceil(reviewFind('main').getBoundingClientRect().top + window.scrollY);
+}
+
 function reviewSizeSlides() {
   const root = document.documentElement;
   document.body.classList.add('paged');
   root.style.setProperty('--real-w', `${reviewRealWidth()}px`);
-  const top = reviewFind('.review-top').offsetHeight;
+  const top = reviewHeightAboveDecisions();
   root.style.setProperty('--top-h', `${top}px`);
   root.style.setProperty('--slide-h', `${Math.max(300, window.innerHeight - top - REVIEW_PAGE_FRAME)}px`);
   const shown = REVIEW.sliders[REVIEW.deck.index];
@@ -79,7 +83,8 @@ async function startReview(config = {}) {
   reviewBuildDeviceSwitch();
   reviewSizeSlides();
   window.addEventListener('resize', reviewSizeSlides);
-  new ResizeObserver(reviewSizeSlides).observe(reviewFind('.review-top'));
+  const resized = new ResizeObserver(reviewSizeSlides);
+  ['.review-top', '#done-panel'].forEach((selector) => resized.observe(reviewFind(selector)));
   document.addEventListener('keydown', reviewMoveWithKeys);
   articles.forEach(reviewWireAnswers);
   await reviewConnectAnswers();
