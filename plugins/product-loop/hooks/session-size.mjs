@@ -1,4 +1,6 @@
 import { readFileSync, writeFileSync, openSync, fstatSync, readSync, closeSync } from 'node:fs';
+import { homedir, tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 const WARN_AT = Number(process.env.CLAUDE_CONTEXT_WARN ?? 400_000);
 const AGAIN_EVERY = Number(process.env.CLAUDE_CONTEXT_WARN_STEP ?? 100_000);
@@ -47,9 +49,9 @@ function lastContextSize(path) {
 function transcriptOf(input) {
   if (input.transcript_path) return input.transcript_path;
   if (!input.session_id) return null;
-  const home = process.env.CLAUDE_CONFIG_DIR ?? `${process.env.HOME}/.claude`;
-  const project = process.cwd().replace(/[/.]/g, '-');
-  return `${home}/projects/${project}/${input.session_id}.jsonl`;
+  const home = process.env.CLAUDE_CONFIG_DIR ?? join(homedir(), '.claude');
+  const project = process.cwd().replace(/[/\\.:]/g, '-');
+  return join(home, 'projects', project, `${input.session_id}.jsonl`);
 }
 
 function band(tokens) {
@@ -64,7 +66,7 @@ try {
   const tokens = lastContextSize(path);
   if (tokens < WARN_AT) process.exit(0);
 
-  const marker = `/tmp/claude-context-warn-${input.session_id ?? 'x'}`;
+  const marker = join(tmpdir(), `claude-context-warn-${input.session_id ?? 'x'}`);
   let seen = -1;
   try {
     seen = Number(readFileSync(marker, 'utf8'));

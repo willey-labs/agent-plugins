@@ -3,10 +3,18 @@ import { existsSync } from 'node:fs';
 import { delimiter, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const NAMES = ['google-chrome', 'google-chrome-stable', 'chromium', 'chromium-browser', 'chrome'];
+const ON_WINDOWS = process.platform === 'win32';
+const NAMES = ['google-chrome', 'google-chrome-stable', 'chromium', 'chromium-browser', 'chrome']
+  .map((name) => (ON_WINDOWS ? `${name}.exe` : name));
+const WINDOWS_INSTALL_ROOTS = [process.env.ProgramFiles, process.env['ProgramFiles(x86)'], process.env.LOCALAPPDATA]
+  .filter(Boolean);
 const APP_PATHS = [
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
   '/Applications/Chromium.app/Contents/MacOS/Chromium',
+  ...WINDOWS_INSTALL_ROOTS.flatMap((root) => [
+    join(root, 'Google', 'Chrome', 'Application', 'chrome.exe'),
+    join(root, 'Chromium', 'Application', 'chrome.exe'),
+  ]),
 ];
 
 export function findChrome() {
