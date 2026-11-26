@@ -68,9 +68,9 @@ function reviewCarrySettled(article) {
   if (!settled || settled.children.length === 0) return;
   const list = settled.cloneNode(true);
   list.removeAttribute('class');
-  const box = document.createElement('div');
+  const box = document.createElement('details');
   box.className = 'd-settled';
-  box.innerHTML = '<span class="label">Settled, not asked</span>';
+  box.innerHTML = `<summary><span class="label">Settled, not asked</span> <span class="count">· ${settled.children.length} lines</span></summary>`;
   box.append(list);
   reviewFind('.d-head', article).append(box);
 }

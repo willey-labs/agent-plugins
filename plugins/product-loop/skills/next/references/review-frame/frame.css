@@ -39,9 +39,11 @@
 .d-head h3 { margin: 0; font-size: 16px; font-weight: 700; }
 .d-sub { margin: 0; color: var(--rf-muted); font-size: 12px; }
 .d-dep { margin: 2px 0 0; color: var(--rf-body); font-size: 13px; }
-.d-settled { grid-column: 2; margin: 8px 0 0; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--rf-border-soft); background: var(--rf-page); font-size: 12px; color: var(--rf-body); }
+.d-settled { grid-column: 2; margin: 8px 0 0; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--rf-border-soft); background: var(--rf-page); font-size: 12px; color: var(--rf-body); }
+.d-settled summary { cursor: pointer; }
 .d-settled .label { font-weight: 600; color: var(--rf-muted); }
-.d-settled ul { margin: 4px 0 0; padding-left: 16px; }
+.d-settled .count { color: var(--rf-light); }
+.d-settled ul { max-height: 22vh; margin: 6px 0 2px; padding-left: 16px; overflow-y: auto; }
 .d-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0 14px; }
 .d-controls .label { font-size: 12px; font-weight: 600; color: var(--rf-muted); }
 .states { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 3px; border-radius: 8px; background: var(--rf-chip); }

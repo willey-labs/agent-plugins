@@ -249,8 +249,9 @@ Each decision holds: the id, the question, the sub-feature it shapes, one line o
 it, one prototype per option, the cost under each option, the recommendation marked, a pick control
 per option, and a note field. A count of answered decisions sits at the top. Each feature's
 decisions follow, as siblings, a `feature-title` heading and a `feature-settled` list holding that
-feature's settled lines from `decisions.md`, each with its request id. The frame shows that list
-inside each of the feature's decisions, so a settled line stays in view on every screen.
+feature's settled lines from `decisions.md`, each with its request id. The frame puts that list in
+each of the feature's decisions, folded under one line that names its count, so the options, Pick
+and the note stay on screen and one click opens the list.
 
 ### The review frame
 
