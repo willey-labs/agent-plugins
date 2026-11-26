@@ -401,6 +401,11 @@ Controls sit around the product's screens, never inside them:
 - An exit check guide listing the milestone's exit check steps. Picking a step sets the prototype to
   where that step starts and says what to do; the user carries the step out.
 
+The page fits one screen and never scrolls, like the review. A slim header holds the stamp, the
+title, the role switch and the Desktop / Mobile switch. A side column holds the other controls and
+the exit check guide, and scrolls inside itself. The product's screens take the rest of the height at
+real size. On a phone-width screen the column moves under the product and the page scrolls.
+
 A stamp names every decision it was built from and the letter each one holds, in id order. It is
 written twice from the same facts: once across the top of the page for a reader, and once as a
 `drawn-from` meta tag whose content lists each id and letter separated by commas, so the review
