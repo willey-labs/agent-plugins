@@ -248,8 +248,9 @@ The same questions as a page where every option is a working prototype the user 
 Each decision holds: the id, the question, the sub-feature it shapes, one line on what depends on
 it, one prototype per option, the cost under each option, the recommendation marked, a pick control
 per option, and a note field. A count of answered decisions sits at the top. Each feature's
-decisions follow a `feature-title` heading and a `feature-settled` list holding that feature's
-settled lines from `decisions.md`, each with its request id.
+decisions follow, as siblings, a `feature-title` heading and a `feature-settled` list holding that
+feature's settled lines from `decisions.md`, each with its request id. The frame shows that list
+inside each of the feature's decisions, so a settled line stays in view on every screen.
 
 ### The review frame
 

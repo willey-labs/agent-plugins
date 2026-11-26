@@ -55,7 +55,28 @@ function reviewStateButtons(decision) {
   });
 }
 
+function reviewFeatureSettled(article) {
+  for (let node = article.previousElementSibling; node; node = node.previousElementSibling) {
+    if (node.matches('.feature-settled')) return node;
+    if (node.matches('.feature-title')) return null;
+  }
+  return null;
+}
+
+function reviewCarrySettled(article) {
+  const settled = reviewFeatureSettled(article);
+  if (!settled || settled.children.length === 0) return;
+  const list = settled.cloneNode(true);
+  list.removeAttribute('class');
+  const box = document.createElement('div');
+  box.className = 'd-settled';
+  box.innerHTML = '<span class="label">Settled, not asked</span>';
+  box.append(list);
+  reviewFind('.d-head', article).append(box);
+}
+
 function reviewSetUp(article) {
+  reviewCarrySettled(article);
   const def = REVIEW.defs[article.dataset.decision];
   const options = [...article.querySelectorAll('.option')].map((element) => ({
     letter: element.dataset.letter, element, proto: reviewFind('.proto', element), outcome: reviewFind('.outcome', element),
