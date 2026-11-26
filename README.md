@@ -24,10 +24,18 @@ on disk — a map of the product's capabilities, a roadmap, a milestone folder p
 for the job currently open — so a new session picks up where the last one stopped without being
 told.
 
+Every command that takes the user's words — `/start-project`, `/feature`, `/issue`, and `/next` when
+it maps a brief — first writes back what it understood: the case with the user's real example, the
+choices the user already made, the build steps the user already planned, and what is left out. The
+user corrects it until it is right, and only the confirmed understanding is recorded, as one entry
+of `docs/requests.md`. The decision review asks nothing an entry settles, the final look builds it,
+the feature document carries it, and the plan starts from its build steps.
+
 `/start-project` opens a new product from nothing. It refuses a project that already has code or a
-map, asks only what the brief leaves out, and turns the brief into business capabilities, their
-features and sub-features, and the milestones cut across them, with the first milestone's page and
-exit check written. The user confirms the map, and `/next` takes it from there.
+map, asks only what the brief leaves out, has the user confirm its understanding of the brief, and
+turns the brief into business capabilities, their features and sub-features, and the milestones cut
+across them, with the first milestone's page and exit check written. The user confirms the map, and
+`/next` takes it from there.
 
 `/next` does one piece of work. It reads the state, says in one line which milestone, feature and
 mode it chose, then runs that mode. A product with no map gets one first: business capabilities,
@@ -42,7 +50,8 @@ time. Passing a feature id changes which feature it picks, nothing else. Passing
 bug: a check that shows the fault first, then the smallest change that passes it. Bugs are fixed
 only when named.
 
-`/feature` puts a new request on a product that already has a map. It finds the capability the
+`/feature` puts a new request on a product that already has a map, once the user confirms its
+understanding of the request. It finds the capability the
 request moves forward, adds the feature and its sub-features under it, and gives them a milestone:
 the current one while its review hasn't started, otherwise a later milestone of the same capability
 that hasn't started its review, otherwise a new milestone of their own, so work already decided or
@@ -55,7 +64,8 @@ milestone's page from the map and puts its review in front of the user, while th
 carries on. Planning, the final look and the build stay in roadmap order, so the final look checks
 the early answers against the map as it stands when the milestone's turn comes.
 
-`/issue` sorts a reported problem against the map. A fault in built work becomes a bug in
+`/issue` sorts a reported problem against the map, once the user confirms its understanding of the
+report. A fault in built work becomes a bug in
 `docs/bugs.md`, tied to the sub-feature it breaks, for `/next` to fix by its id. Work nobody planned
 goes to `/feature`. A sub-feature not built yet is named with the milestone that delivers it, and
 the product doing what it was built to do is left to the user: keep it, or change it as new work.

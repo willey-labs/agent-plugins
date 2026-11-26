@@ -1,6 +1,6 @@
 ---
 name: start-project
-description: Use when the user starts a new product from nothing — an empty repo, or no repo yet — and describes what to build ("start a new project", "new product", "here's the brief", "we want to build"). Turns the brief into the capability map, the milestones and the first milestone's page, then hands the map to the user to confirm. Refuses a project that already has code or a map.
+description: Use when the user starts a new product from nothing — an empty repo, or no repo yet — and describes what to build ("start a new project", "new product", "here's the brief", "we want to build"). Works out the brief and has the user confirm that understanding, records it in docs/requests.md, turns it into the capability map, the milestones and the first milestone's page, then hands the map to the user to confirm. Refuses a project that already has code or a map.
 ---
 
 # start-project
@@ -29,14 +29,29 @@ message only what they leave out:
 
 Wait for the answers. Ask again only about a gap that still stops the map.
 
+Then write back your understanding of the brief in the sections of a `docs/requests.md` entry, as
+the next skill's `references/templates.md` shapes it:
+
+- The case: what the product does, for whom, and the path that has to work first, with the real
+  examples the user gave.
+- Settled: every choice the brief and the answers already make about how the product behaves, one
+  fact per line.
+- Build steps: the work the user already planned, in their order, each with its check.
+- Out: what is out of scope.
+
+Write it in your own plain words, never a copy of the brief. Ask whether it is right, and wait. Take
+every correction and show the whole understanding again. Map nothing before a yes.
+
 ## Map
 
 Build the map and cut the milestones exactly as the next skill's MAP section says: capabilities,
 then features, then sub-features, in the business's own words; the first milestone is the thinnest
 path to the core outcome; a milestone holds at most 15 sub-features; every sub-feature lands in one
 milestone or in `later`. Write `docs/capabilities.md` with `Map: proposed`, `docs/roadmap.md` with
-the first milestone `current`, and that milestone's `_milestone.md` with its exit check, in the
-shapes of the next skill's `references/templates.md`.
+the first milestone `current`, that milestone's `_milestone.md` with its exit check, and
+`docs/requests.md` with the confirmed brief as R-01, sorted `brief`, landed in the milestones that
+take its settled lines, and each settled line led by its sub-feature id, in the shapes of the next
+skill's `references/templates.md`.
 
 ## Hand it over
 
@@ -50,10 +65,13 @@ first milestone's review. Changes go into the same files, and the map stays `pro
 
 ## Files you may write
 
-`docs/capabilities.md`, `docs/roadmap.md`, and the first milestone's `_milestone.md`. Nothing else.
+`docs/requests.md`, `docs/capabilities.md`, `docs/roadmap.md`, and the first milestone's
+`_milestone.md`. Nothing else.
 
 ## Stop and ask if
 
+- You're about to map anything before the user confirms your understanding of the brief.
+- You're about to put the user's own text in the entry instead of your understanding of it.
 - You're about to put something on the map that the brief, its documents and the user's answers
   don't show.
 - You're about to name a capability after a part of the system, or name anything with a phrase the

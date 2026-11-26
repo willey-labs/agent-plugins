@@ -1,24 +1,39 @@
 ---
 name: issue
-description: Use when the user reports a problem with the product — something broken, wrong, or not doing what people expect ("X doesn't work", "users complain that", "since yesterday it", "bug") — or asks whether something is a bug. Sorts the report against the capability map: a fault in built work becomes a bug in `docs/bugs.md`, tied to the sub-feature it breaks; work nobody built goes to the feature skill; the product doing what it was built to do is the user's call. It never fixes; `/next B-01` fixes a bug.
+description: Use when the user reports a problem with the product — something broken, wrong, or not doing what people expect ("X doesn't work", "users complain that", "since yesterday it", "bug") — or asks whether something is a bug. Works out the report's case and has the user confirm it, records that understanding in docs/requests.md, then sorts the report against the capability map: a fault in built work becomes a bug in `docs/bugs.md`, tied to the sub-feature it breaks; work nobody built goes to the feature skill; the product doing what it was built to do is the user's call. It never fixes; `/next B-01` fixes a bug.
 ---
 
 # issue
 
-Sort one reported problem against the map, record it where it belongs, and stop.
+Understand one reported problem, record the understanding the user confirms, sort it against the
+map, record it where it belongs, and stop.
 
 ## Read the state
 
-Read `docs/capabilities.md`, `docs/roadmap.md`, and `docs/bugs.md` when it exists.
+Read `docs/capabilities.md`, `docs/roadmap.md`, `docs/bugs.md` and `docs/requests.md` when they
+exist.
 
 No `docs/capabilities.md` means there is nothing to sort against. Say the product needs a map first
 — `/start-project` for an empty project, `/next` for one with code — and stop.
 
-## Read the report
+## Understand the report
 
-Say in one line who hit it, what they did, what happened, and what they expected:
-`Patient: opened a free day, every slot showed as full, expected the free slots.` When the report
-leaves out what happened or what was expected, ask that one question and wait.
+Work out the case before anything is sorted. Read the report, what it points to, and, in a repo with
+work in it, the code of the area it is about. Then write back your understanding in the sections of
+a `docs/requests.md` entry, as the next skill's `references/templates.md` shapes it:
+
+- The case: who hit it, what they did, what happened, and what they expected, with the real record
+  and figures the report gives.
+- Settled: every choice the user already made about the fix or about how the product behaves.
+- Build steps: the work the user already planned, in their order, each with its check.
+- Out: what the report leaves out.
+
+Write it in your own plain words, never a copy of the report. Ask whether it is right, and in the
+same message ask about anything it leaves out of what happened or what was expected. Wait. Take
+every correction and show the whole understanding again. Write nothing before a yes.
+
+Once it is confirmed, say it in one line:
+`Patient: opened a free day, every slot showed as full, expected the free slots.`
 
 A report that holds two problems is two issues. Say so, ask which comes first, and sort one.
 
@@ -47,23 +62,31 @@ and ask the user to confirm it. Write nothing before a yes.
 
 ## Then
 
-- **Bug.** An open bug on the same sub-feature with the same symptom is the same bug: name it, and
-  stop. Otherwise give it the next unused id, add its row to the summary table of `docs/bugs.md` with
+- **Bug.** An open bug on the same sub-feature with the same symptom is the same bug: add the
+  confirmed entry to `docs/requests.md`, sorted `bug` and landed in that bug's id, name it, and stop.
+  Otherwise give it the next unused id, add its row to the summary table of `docs/bugs.md` with
   status `open`, and add its section: what happens, what should happen, and how to see it — the
-  steps and the data that make it happen, as the report and the code show them. Say that
-  `/next B-04` fixes it, with its id, and stop.
-- **Not built yet.** Name the milestone that delivers it, and stop.
-- **Not on the map.** Hand the expected behaviour to the feature skill as its request.
-- **Works as built.** Ask whether to keep it or change it. A change is new work: hand it to the
-  feature skill as its request. Kept, nothing is recorded: say so, and stop.
+  steps and the data that make it happen, as the confirmed case and the code show them — with the
+  entry's id on its `Request` line. Add the entry, sorted `bug` and landed in the new bug's id. Say
+  that `/next B-04` fixes it, with its id, and stop.
+- **Not built yet.** Add the entry, sorted `on the map` and landed in the sub-feature and the
+  milestone that delivers it. Name that milestone, and stop.
+- **Not on the map.** Hand the expected behaviour and the confirmed entry to the feature skill as its
+  request.
+- **Works as built.** Ask whether to keep it or change it. A change is new work: hand it and the
+  confirmed entry to the feature skill as its request. Kept, add the entry, sorted `works as built`
+  and landed in the sub-feature that covers it. Say so, and stop.
 
 ## Files you may write
 
-`docs/bugs.md`, in the shape of the next skill's `references/templates.md`. Nothing else. When this
-hands a request to the feature skill, that skill writes its own files.
+`docs/requests.md` and `docs/bugs.md`, in the shapes of the next skill's `references/templates.md`.
+Nothing else. When this hands a request to the feature skill, that skill writes its own files,
+the entry included.
 
 ## Stop and ask if
 
+- You're about to write the entry, or sort the report, before the user confirms the understanding.
+- You're about to put the user's own text in the entry instead of your understanding of it.
 - You're about to record a bug the user hasn't confirmed.
 - You're about to call it a bug when no built sub-feature says the product does what the reporter
   expected.

@@ -9,6 +9,7 @@ Feature build: `none` · `planned` · `building` · `built`
 Feature kind: `page` · `contract` · `job` · `integration`
 Plan slice state: `none` · `built`
 Bug status: `open` · `fixing` · `fixed`
+Request sorted as: `brief` · `new work` · `bug` · `on the map` · `works as built`
 
 Exactly one milestone is `current`. A feature reaches `planned` once its decision is `locked`,
 `building` once a slice of its plan passes its own check, and `built` once every slice does. A bug
@@ -205,6 +206,11 @@ pick when opened at <published link>.
 
 ## F-03 SMS reminders
 
+Settled:
+
+- A reminder names the clinic and the doctor. (R-04)
+- A reminder never shows the reason for the visit. (settled here)
+
 ### D-01 — Who does a reminder go to?
 
 <One line on what depends on this.>
@@ -231,13 +237,19 @@ sub-feature sits under that sub-feature's heading, and the table names it. Decis
 The `Decision` line holds the letter, plus the user's own words if they added any. Write the letter
 into the table in the same edit so the two can't disagree.
 
+`Settled:` under a feature or sub-feature heading lists what the review doesn't ask, one fact per
+line: a line a confirmed request settled, ending with that request's id, and a choice with only one
+sensible answer, ending with `(settled here)`. Settled lines carry no letters and no `Decision` line.
+
 ## docs/m<n>-<name>/decisions.html
 
 The same questions as a page where every option is a working prototype the user plays with.
 
 Each decision holds: the id, the question, the sub-feature it shapes, one line on what depends on
 it, one prototype per option, the cost under each option, the recommendation marked, a pick control
-per option, and a note field. A count of answered decisions sits at the top.
+per option, and a note field. A count of answered decisions sits at the top. Each feature's
+decisions follow a `feature-title` heading and a `feature-settled` list holding that feature's
+settled lines from `decisions.md`, each with its request id.
 
 ### The review frame
 
@@ -455,11 +467,19 @@ options, no reasons for the choice.
 | ----- | ----------- | ---- | ----- | ----- |
 | 1 | F-03.1 | <the thinnest change that works end to end> | <what proves it> | built |
 | 2 | F-03.2 | <...> | <...> | none |
+
+## Outside this repo
+
+1. <a step from a request's build steps that runs in another repo or after the build, with its check> (R-04)
 ```
 
 Each check has to pass or fail on its own, with no other slice finished. Slice one is the one most
 likely to prove the plan wrong. A slice reads `none` until its own check passes, and `built` after.
 Every sub-feature the milestone takes from this feature has at least one slice.
+
+`Outside this repo` keeps, in the user's order, every build step of a request that this repo's
+build can't do: work in another service, an evaluation run, a rollout step. A slice that needs one
+names its number. Leave the section out when there is none.
 
 ## docs/bugs.md
 
@@ -477,6 +497,7 @@ Every fault found in built work, each tied to the sub-feature it breaks.
 
 Sub-feature: F-03.1 Send a reminder 24 hours before
 Reported by: Receptionist, 2026-03-09
+Request: R-05
 What happens: A patient with one visit tomorrow gets two reminders.
 What should happen: One reminder, 24 hours before the visit.
 How to see it: Book a visit for tomorrow, let the reminder run, count the messages.
@@ -484,4 +505,66 @@ Fixed by: —
 ```
 
 Bug ids never change and are never reused. A fixed bug keeps its row and its section, and
-`Fixed by` names the check that proves the fix.
+`Fixed by` names the check that proves the fix. `Request` names the confirmed request the bug came
+from.
+
+## docs/requests.md
+
+Every request, brief and report the user brought, written as the user confirmed it was understood.
+It holds the understanding, never the user's own text.
+
+```markdown
+# Requests
+
+| id | request | sorted as | landed in | confirmed |
+| -- | ------- | --------- | --------- | --------- |
+| R-01 | Online booking for one clinic | brief | M1, M2 | 2026-02-20 |
+| R-04 | Patients confirm a visit by WhatsApp | new work | F-03.4, M5 | 2026-03-12 |
+| R-05 | Reminder sent twice | bug | B-02 | 2026-03-09 |
+
+## R-04 Patients confirm a visit by WhatsApp
+
+Asked by: Clinic owner, 2026-03-12
+Sorted as: new work
+Landed in: F-03.4 Confirm the visit by WhatsApp reply, M5
+
+### The case
+
+Patients who get the SMS reminder phone the front desk to confirm, about 40 calls a morning at the
+main clinic. A patient should confirm by replying to a WhatsApp reminder, and the booking shows
+the visit as confirmed without anyone at the desk touching it.
+
+### Settled
+
+- F-03.4: A reply of YES or Y confirms the visit; any other reply goes to the front desk's inbox.
+- F-03: A reminder names the clinic and the doctor.
+
+### Build steps
+
+1. The WhatsApp provider's test number is set up for the main clinic. Check: a message sent to it reaches the clinic's account.
+2. Confirmations go live at the main clinic first, the other clinics a week later. Check: the main clinic's morning calls drop.
+
+### Out
+
+- Rescheduling by WhatsApp.
+```
+
+Write an entry only after the user says the understanding is right. Before that, show it, take the
+corrections, and show it again.
+
+- `The case` says who meets it, what happens now, what goes wrong or is missing, and what should
+  happen, with the real example the user gave: the person, the record, the figures.
+- `Settled` holds each choice the user already made about how the product behaves, one fact per
+  line, led by the sub-feature or feature it shapes. Nothing the user didn't say or agree to.
+- `Build steps` keeps the work the user already planned, in their order, each with the check that
+  proves it, including work in another repo, an evaluation run and a rollout step.
+- `Out` holds what the user said the request leaves out.
+
+Leave out a section with nothing in it. `Landed in` and the table's column name the sub-features and
+milestone the request was placed in, the bug it became, or the sub-feature already on the map.
+A settled line about a sub-feature placed in the same run takes the new id in the edit that places
+it.
+
+Request ids never change and are never reused. A settled line changes only through a later
+confirmed request, whose line names the entry it replaces: `F-03.4: Any reply that starts with YES
+confirms the visit. (replaces R-04)`. The review, the final look and the plan take the newest line.

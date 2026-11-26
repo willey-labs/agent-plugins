@@ -55,7 +55,8 @@ argument — say so and read the state.
 milestone's `_milestone.md`, `decisions.md`, `decisions.html` and `final-look.html`. The feature
 documents listed in the row's `needs` column. In BUILD, the source files the slice names. In MAP,
 every milestone's `_milestone.md` and the sources MAP names. In FIX, `docs/bugs.md`, the feature
-document of the bug's sub-feature, and the source files the fix touches.
+document of the bug's sub-feature, and the source files the fix touches. In MAP, BRAINSTORM, FINAL
+LOOK, PLAN and FIX, `docs/requests.md`.
 
 Don't open another milestone's folder outside MAP and FIX. Don't open a feature document you aren't
 working on. Don't open source code outside BUILD, FIX and MAP. Don't read all of `docs/`.
@@ -76,6 +77,10 @@ Read what the product is from the user's brief and the documents they point to. 
 already has work in it, also read what is built — its screens, services and integrations — and its
 commit history when the user agrees. Everything on the map traces to one of those. A gap you notice
 is a question for the user, not a row.
+
+When the user brings a brief, write back your understanding of it and have it confirmed before you
+map anything, as the start-project skill's brief step says. The confirmed brief goes into
+`docs/requests.md`, sorted `brief`, with each settled line led by its sub-feature id.
 
 Build the map top down:
 
@@ -165,6 +170,14 @@ names them on the Decisions tab — and change nothing else.
 A sub-feature the milestone page lists under `Built outside the loop` is settled: it gets no
 questions, and a feature whose sub-features are all listed there needs no review.
 
+Read `docs/requests.md` before writing any question. Every settled line that names a feature or a
+sub-feature of this milestone is answered: ask nothing about it, write it under that heading's
+`Settled:` in `decisions.md` with its request id, list it in the feature's `feature-settled` list
+on the review page, and build every option of the other decisions in line with it. An option that
+contradicts a settled line isn't an option. When a question can't be asked without reopening a
+settled line, the user reopens it: name the line, and ask. The case of each request that landed in
+the milestone gives the real example the prototypes play.
+
 Questions to cover for each feature, in this order, across the sub-features this milestone takes:
 who reaches it and what they want; what it holds; how it behaves when empty and when something it
 depends on is down; what someone can do to it; what it refuses; what it leaves to another feature,
@@ -178,8 +191,8 @@ Writing the options:
 - Every option should be one a reasonable person would pick. Say what it costs, not what it gives.
 - Recommend one and mark it. Give one line of reason. Don't recommend when the choice comes down to
   taste, or to money you can't see.
-- If there's only one sensible answer, it isn't a decision. Settle it, write it down as settled, and
-  leave it out of the review.
+- If there's only one sensible answer, it isn't a decision. Settle it, write it under `Settled:`
+  with `(settled here)`, and leave it out of the review.
 - Build every option as a playable prototype: a working piece of the product that behaves the way
   the option makes it behave. The user decides by using the options, not by reading about them.
   The template gives the form for each kind of feature.
@@ -211,8 +224,9 @@ summary of the conversation anywhere else.
 
 When every decision for a feature is answered, close it. Write the feature document from scratch,
 set that row's decision to `locked`, and delete `docs/_current.md` once nothing is left open. The
-document holds settled facts only — no questions, no rejected options, no trace of the review. Leave
-`decisions.md` where it is, with its answers in it.
+document holds settled facts only — no questions, no rejected options, no trace of the review. It
+holds every settled line of the review and of the requests that landed in the feature, beside the
+answers. Leave `decisions.md` where it is, with its answers in it.
 
 ## FINAL LOOK
 
@@ -231,7 +245,7 @@ rebuild without rewriting it. A missing mark alone needs only the piece that lac
 
 Every answer has to work here, as that answer and no other. A question answered B behaves as B,
 including where B lost the recommendation. Read the `Decision` lines again as you build; don't work
-from what you remember recommending.
+from what you remember recommending. Every settled line in `decisions.md` works here too, as written.
 
 Build nothing the milestone excludes, and no sub-feature it doesn't take. `_milestone.md` names both,
 and a prototype that includes either makes it look agreed.
@@ -257,6 +271,11 @@ another slice is done, it isn't a slice — merge it or cut differently.
 
 Each slice says what it does and how you'll check it. Write the check now, not after the code. Put
 the slice most likely to prove the plan wrong first.
+
+A confirmed request that landed in this feature and lists build steps gives the plan its start.
+Each step this repo builds becomes a slice or part of one, in the user's order, with the user's
+check. Each step this repo's build can't do goes under `Outside this repo`, and the slice that needs
+it names its number. Every step lands in one of the two.
 
 Write the plan file, set the row's build to `planned`, then stop. The plan is this invocation's whole
 unit — don't write code in the same turn. The next `/next` picks the first slice up and builds it.
@@ -287,6 +306,9 @@ reproduce the bug yet: make it follow `How to see it` more closely, with the dat
 really stores. When it still passes, the fault isn't where the bug says: say so, and stop. Then
 write just enough code to pass it, and run it with the checks already there.
 
+When the bug's `Request` line names an entry in `docs/requests.md`, its settled lines shape the fix
+and its build steps give the fix's order and checks.
+
 Touch only what the fix needs. When the fix would change what the feature document says, it isn't a
 fault in built work: stop, and say the change is new work for the feature skill.
 
@@ -311,7 +333,7 @@ which one, and stop. Don't close it.
 
 Read `references/templates.md` before writing `docs/capabilities.md`, `docs/roadmap.md`, a
 `_milestone.md`, `docs/_current.md`, a `decisions.md`, a `decisions.html`, a `final-look.html`, a
-feature document, a plan, or `docs/bugs.md`.
+feature document, a plan, `docs/bugs.md`, or `docs/requests.md`.
 
 ## What ships alongside
 
@@ -335,6 +357,10 @@ repeats.
 - You're about to change a `done` milestone while mapping.
 - You're about to start a brainstorm while the map is still `proposed`, unless its `Changed:` line
   leaves the current milestone out.
+- You're about to map a brief, or write it into `docs/requests.md`, before the user confirms your
+  understanding of it.
+- You're about to ask a question, or offer an option, that a confirmed request already settled.
+- You're about to write a plan that leaves out a build step of a request that landed in the feature.
 - You're about to ask questions one at a time in chat instead of writing the review.
 - You're about to send the user to `decisions.html` as a file, or to a `node` command, instead of
   the address `/serve` gives.

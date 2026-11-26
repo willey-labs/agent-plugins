@@ -14,8 +14,8 @@ changes no code, so it can run ahead of the build. Planning and building stay in
 The argument is a milestone id: `/decide m4`. Without one, read `docs/roadmap.md`, name the
 milestones that aren't `done`, ask which, and wait.
 
-Read `docs/roadmap.md`, `docs/capabilities.md`, `docs/_current.md` when it exists, and the
-milestone's folder. Stop when one of these holds, and say which:
+Read `docs/roadmap.md`, `docs/capabilities.md`, `docs/_current.md` and `docs/requests.md` when they
+exist, and the milestone's folder. Stop when one of these holds, and say which:
 
 - The milestone is `done`. It has nothing left to decide.
 - `docs/_current.md` exists. One job is open at a time: name it, and say `/next` carries it on.

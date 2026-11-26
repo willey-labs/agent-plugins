@@ -1,39 +1,63 @@
 ---
 name: feature
-description: Use when the user asks to add something new to a product that already has a capability map — a new feature, capability or behaviour ("we also need", "add a way to", "can it also", "customers keep asking for") — or to schedule a sub-feature the map holds for `later`. Places the request on the map and in a milestone, then hands the map back to the user to confirm. It never decides or builds.
+description: Use when the user asks to add something new to a product that already has a capability map — a new feature, capability or behaviour ("we also need", "add a way to", "can it also", "customers keep asking for") — or to schedule a sub-feature the map holds for `later`. Works out the request's case and has the user confirm it, records that understanding in docs/requests.md, places the request on the map and in a milestone, then hands the map back to the user to confirm. It never decides more than the request settles, and never builds.
 ---
 
 # feature
 
-Put one request on the map: its capability, its feature, its sub-features, and the milestone that
-delivers it. Then hand the map back to the user, as MAP does.
+Understand one request, record the understanding the user confirms, and put the request on the
+map: its capability, its feature, its sub-features, and the milestone that delivers it. Then hand
+the map back to the user, as MAP does.
 
 ## Read the state
 
-Read `docs/capabilities.md` and `docs/roadmap.md`. Read the `_milestone.md` of the first milestone
-that isn't `done`, and list that milestone's folder.
+Read `docs/capabilities.md`, `docs/roadmap.md`, and `docs/requests.md` when it exists. Read the
+`_milestone.md` of the first milestone that isn't `done`, and list that milestone's folder.
 
 No `docs/capabilities.md` means there is no map to add to. An empty project starts with
 `/start-project`, whose brief can hold this request. A project with code gets its map from `/next`,
 which maps what is built, and this request comes after. Say which applies, and stop.
 
-## Read the request
+## Understand the request
 
-Say in one line who asks for it and what they can do once it exists: `Receptionist: move a booking
-to another clinic.` When the request doesn't say who it serves or what changes for them, ask that
-one question and wait.
+Work out the case before anything is placed. Read the request, the documents it points to, and, in
+a repo with work in it, the code of the area it is about. Then write back your understanding in the
+sections of a `docs/requests.md` entry, as the next skill's `references/templates.md` shapes it:
 
-Then look for it on the map. The map holds the request only when a sub-feature already lets this
-actor do this thing, with nothing added. A request that adds to a sub-feature — another actor,
-another case, one more step — isn't on the map yet: it becomes a new sub-feature.
+- The case: who meets it, what happens now, what is wrong or missing, and what should happen, with
+  the real example the user gave.
+- Settled: every choice the request already makes about how the product behaves, one fact per line.
+- Build steps: the work the user already planned, in their order, each with its check.
+- Out: what the request leaves out.
+
+Write it in your own plain words, never a copy of the request. Ask whether it is right, and in the
+same message ask what it leaves unclear about who it serves or what changes for them. Wait. Take
+every correction and show the whole understanding again. Write nothing before a yes.
+
+A request the issue skill hands over arrives with its confirmed entry. Read it, and don't ask again.
+
+Once it is confirmed, say in one line who asks for it and what they can do once it exists:
+`Receptionist: move a booking to another clinic.`
+
+## Find it on the map
+
+The map holds the request only when a sub-feature already lets this actor do this thing, with
+nothing added. A request that adds to a sub-feature — another actor, another case, one more step —
+isn't on the map yet: it becomes a new sub-feature.
+
+Each outcome below adds the confirmed entry to `docs/requests.md`. A request the map holds is sorted
+`on the map` and lands in that sub-feature, with the milestone it is scheduled in. One the code
+already does is sorted `works as built` and lands in the sub-feature that covers it, or in `none`.
+One placed on the map is sorted `new work` and lands in its new sub-features and their milestone. A
+fault in built work goes to the issue skill with its confirmed entry, and the issue skill writes it.
 
 - The map holds it, and the sub-feature's milestone isn't `done`. Name the sub-feature and its
   milestone, and stop.
 - The map holds it in `later`. The request is to schedule it: pick its milestone below and leave the
   rest of the map as it is.
 - The map holds it in a `done` milestone, and the user reports that the product no longer does what
-  the sub-feature says. That is a fault in built work, not new work: hand the report to the issue
-  skill, and stop.
+  the sub-feature says. That is a fault in built work, not new work: hand the report and its
+  confirmed entry to the issue skill, and stop.
 - The map holds it in a `done` milestone, and nobody reports a fault. It is built already. Name it,
   and stop.
 - In a repo with work in it, read the screens, services and integrations of the request's area. When
@@ -93,8 +117,9 @@ fits, and a new one right after the current milestone. Ask which, and wait.
 A milestone whose review has started takes no new work: decisions come before building, and the
 review covers the features it started with. A `done` milestone takes no new work.
 
-Once the milestone is picked, say in one line what the request becomes:
-`C-02 Patient reminders, F-03 SMS reminders, adds F-03.4 Remind by WhatsApp, new milestone M5.`
+Once the milestone is picked, write the entry with its new sub-feature ids on its settled lines, and
+say in one line what the request becomes:
+`R-04: C-02 Patient reminders, F-03 SMS reminders, adds F-03.4 Remind by WhatsApp, new milestone M5.`
 
 ## Hand it over
 
@@ -118,11 +143,13 @@ Changes go into the same files, and the map stays `proposed`. Once the map reads
 
 ## Files you may write
 
-`docs/capabilities.md`, `docs/roadmap.md`, and the `_milestone.md` of the milestone the request
-joins, when that page exists. Nothing else.
+`docs/requests.md`, `docs/capabilities.md`, `docs/roadmap.md`, and the `_milestone.md` of the
+milestone the request joins, when that page exists. Nothing else.
 
 ## Stop and ask if
 
+- You're about to write the entry, or place anything, before the user confirms the understanding.
+- You're about to put the user's own text in the entry instead of your understanding of it.
 - You're about to add something the request, the user's answers and the repo don't show.
 - You're about to name a capability after a part of the system, or name anything with a phrase the
   business wouldn't use.
@@ -131,6 +158,7 @@ joins, when that page exists. Nothing else.
 - You're about to put a sub-feature from another capability into the current milestone without an
   exit step it already has that needs it.
 - You're about to change an id already on the map.
-- You're about to decide how the feature behaves. That is the review's job.
+- You're about to decide how the feature behaves beyond what the confirmed request settles. That is
+  the review's job.
 
 Each one means: stop, say what you were about to do, and ask.
